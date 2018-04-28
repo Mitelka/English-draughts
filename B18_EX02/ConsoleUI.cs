@@ -4,15 +4,15 @@
     {
         private const int maxCharInPlayerName = 20;
         private const byte numOfPlayers = 2;
-        private readonly Player[] players = new Player[numOfPlayers];
         private static string FirstPlayerName = " ";
         private static string secondPlayerName = " ";
+        private readonly Player[] players = new Player[numOfPlayers];
         private readonly GameLogic GameLogic;
 
         public ConsoleUI()
         {
-            FirstPlayerName= getPlayerName();
-            int boardSize = getBoardSize();
+            FirstPlayerName = getPlayerName();
+            byte boardSize = getBoardSize();
             eGameType gameType = getGameType();
             players[0] = new Player(ePlayerType.Human, eSign.O, FirstPlayerName);
             if (gameType == eGameType.HumenVsHumen)
@@ -23,6 +23,7 @@
             {
                 players[1] = new Player(ePlayerType.Computer, eSign.X, secondPlayerName);
             }
+
             GameLogic = new GameLogic(players, boardSize, gameType);
         }
 
@@ -55,16 +56,16 @@
             return name;
         }
 
-        private static int getBoardSize()
+        private static byte getBoardSize()
         {
-            int boardSize = 0;
+            byte boardSize = 0;
             bool isVaildSizeFlag = false;
 
             System.Console.WriteLine("Please enter the board size - 6 or 8 or 10");
 
             while (!isVaildSizeFlag)
             {
-                if (int.TryParse(System.Console.ReadLine(), out boardSize))
+                if (byte.TryParse(System.Console.ReadLine(), out boardSize))
                 {
                     switch (boardSize)
                     {
@@ -110,6 +111,7 @@ Please enter the desired game type:
                     System.Console.WriteLine("Invalid game type. Please try again.");
                 }
             }
+
             if (gameType == eGameType.HumenVsHumen)
             {
                 secondPlayerName = getPlayerName();
@@ -120,6 +122,13 @@ Please enter the desired game type:
             }
 
             return gameType;
+        }
+
+        private void printBoard()
+        {
+            byte size = GameLogic.BoardSize;
+
+            // TODO
         }
     }
 }

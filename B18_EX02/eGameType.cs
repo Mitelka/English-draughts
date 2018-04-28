@@ -4,6 +4,5 @@
     {
         HumenVsHumen = 1,
         HumenVsComputer = 2
-    }
-    
+    }   
 }

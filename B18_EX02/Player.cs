@@ -2,6 +2,10 @@
 {
     internal class Player
     {
+        private ePlayerType playerType;
+        private eSign sign;
+        private string playerName;
+
         public Player(ePlayerType i_PlayerType, eSign i_Sign, string i_playerName)
         {
             PlayerType = i_PlayerType;
@@ -10,10 +14,9 @@
         }
 
         public ePlayerType PlayerType { get; set; }
-        public eSign Sign { get; set; }
-        public string playerName { get; set; }
-        
-        
 
+        public eSign Sign { get; set; }
+
+        public string PlayerName { get; set; }
     }
 }
