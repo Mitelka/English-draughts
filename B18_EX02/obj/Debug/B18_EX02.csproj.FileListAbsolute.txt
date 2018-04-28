@@ -1,0 +1,7 @@
+C:\Users\Erez\source\repos\B18 Ex02 ErezMitelka 301674 NofarDiamant 204032031\B18_EX02\bin\Debug\B18_EX02.exe.config
+C:\Users\Erez\source\repos\B18 Ex02 ErezMitelka 301674 NofarDiamant 204032031\B18_EX02\bin\Debug\B18_EX02.exe
+C:\Users\Erez\source\repos\B18 Ex02 ErezMitelka 301674 NofarDiamant 204032031\B18_EX02\bin\Debug\B18_EX02.pdb
+C:\Users\Erez\source\repos\B18 Ex02 ErezMitelka 301674 NofarDiamant 204032031\B18_EX02\obj\Debug\B18_EX02.csprojResolveAssemblyReference.cache
+C:\Users\Erez\source\repos\B18 Ex02 ErezMitelka 301674 NofarDiamant 204032031\B18_EX02\obj\Debug\B18_EX02.csproj.CoreCompileInputs.cache
+C:\Users\Erez\source\repos\B18 Ex02 ErezMitelka 301674 NofarDiamant 204032031\B18_EX02\obj\Debug\B18_EX02.exe
+C:\Users\Erez\source\repos\B18 Ex02 ErezMitelka 301674 NofarDiamant 204032031\B18_EX02\obj\Debug\B18_EX02.pdb
