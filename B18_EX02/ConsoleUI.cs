@@ -243,12 +243,13 @@ Please enter the desired game type:
         private Cell getLegalDesiredCell(int i_PlayerIndex, ref bool io_QuitRequest)
         {
             Cell legalDesiredCell;
+            Cell legalOriginCell;
             eSign playerSign = players[i_PlayerIndex].Sign;
             ePlayerType playerType = players[i_PlayerIndex].PlayerType;
 
             if(playerType == ePlayerType.Human)
             {
-                getUserCellMove(i_PlayerIndex, playerSign, ref io_QuitRequest, out legalDesiredCell);
+                getUserCellMove(i_PlayerIndex, playerSign, ref io_QuitRequest, out legalOriginCell, out legalDesiredCell);
             }
             else
             {
@@ -264,7 +265,7 @@ Please enter the desired game type:
             o_LegalOriginCell = null;
             o_LegalDestCell = null;
 
-            System.Console.WriteLine(@"{players[i_PlayerIndex].playerName}'s ({players[i_PlayerIndex].playerSign}) turn:
+            System.Console.WriteLine($@"{players[i_PlayerIndex].PlayerName}'s ({players[i_PlayerIndex].Sign}) turn:
 Enter your desirable coordinate as follows: PrevRowPrevCol > RowCol");
 
             while(!isLegalMove)

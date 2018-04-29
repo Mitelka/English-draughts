@@ -11,7 +11,7 @@
         {
             PlayerType = i_PlayerType;
             Sign = i_Sign;
-            playerName = i_playerName;
+            playerName = PlayerName = i_playerName;
         }
 
         public ePlayerType PlayerType { get; set; }
