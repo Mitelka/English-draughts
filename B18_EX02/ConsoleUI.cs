@@ -8,6 +8,7 @@
         private static string FirstPlayerName = " ";
         private static string secondPlayerName = " ";
         private readonly Player[] players = new Player[numOfPlayers];
+        private bool isGameOver = false;
         private readonly GameLogic GameLogic;
 
         public ConsoleUI()
@@ -213,7 +214,6 @@ Please enter the desired game type:
         private bool runRound()
         {
             bool quitRequest = false;
-            bool isGameOver = false;
             while(!isGameOver && !quitRequest)
             {
                 for (byte playerIndex = 0; playerIndex < players.Length; playerIndex++)
@@ -223,12 +223,12 @@ Please enter the desired game type:
                     {
                         break;
                     }
-                    GameLogic.MakeMoveOnBoard(requestedMoveCell, playerIndex);
+                    //GameLogic.MakeMoveOnBoard(requestedMoveCell, playerIndex);
                     printBoard();
-                    isGameOver = GameLogic.checkIfGameOver(requestedMoveCell, playerIndex);
+                    //isGameOver = GameLogic.checkIfGameOver(requestedMoveCell, playerIndex);
                     if(isGameOver)
                     {
-                        showResults();
+                        //showResults();
                     }
                 }
             }
@@ -240,12 +240,71 @@ Please enter the desired game type:
             GameLogic.Board.ResetBoard();
         }
 
-        private Cell getLegalDesiredCell(int i_PlayerIndex, ref bool i_QuitRequest)
+        private Cell getLegalDesiredCell(int i_PlayerIndex, ref bool io_QuitRequest)
         {
-            //if human, get from user the cell
-            //check if legal
-            //return the legal cell
+            Cell legalDesiredCell;
+            eSign playerSign = players[i_PlayerIndex].Sign;
+            ePlayerType playerType = players[i_PlayerIndex].PlayerType;
 
+            if(playerType == ePlayerType.Human)
+            {
+                getUserCellMove(i_PlayerIndex, playerSign, ref io_QuitRequest, out legalDesiredCell);
+            }
+            else
+            {
+                GameLogic.getComputerCellMove(i_PlayerIndex, playerSign, out legalDesiredCell);    
+            }
+
+            return legalDesiredCell;
+        }
+
+        private void getUserCellMove(int i_PlayerIndex, eSign i_PlayerSign, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell)
+        {
+            bool isLegalMove = false;
+            o_LegalOriginCell = null;
+            o_LegalDestCell = null;
+
+            System.Console.WriteLine(@"{players[i_PlayerIndex].playerName}'s ({players[i_PlayerIndex].playerSign}) turn:
+Enter your desirable coordinate as follows: PrevRowPrevCol > RowCol");
+
+            while(!isLegalMove)
+            {
+                string userInput = getUserInput(ref io_QuitRequest);
+                string[] splitInput = userInput.Split('>');
+                if(splitInput.Length != 2)
+                {
+                    continue;
+                }
+                if(!isGameOver)
+                {
+                    if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && GameLogic.areCellsLegal(o_LegalOriginCell, o_LegalDestCell))
+                    {
+                        o_LegalDestCell.CellSign = i_PlayerSign;
+                        o_LegalOriginCell.CellSign = eSign.Empty;
+                        isLegalMove = true;
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("Invalid input, please try again.");   
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        private string getUserInput(ref bool io_QuitRequest)
+        {
+            string userInput = System.Console.ReadLine();
+            if(userInput.ToUpper() == "Q")
+            {
+                System.Console.WriteLine("You chose to quite.");
+                io_QuitRequest = true;
+            }
+
+            return userInput;
         }
     }
 }

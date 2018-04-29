@@ -19,9 +19,19 @@ namespace B18_EX02
 
         internal Board Board { get; set; }
 
-        private void initializeBoard(byte boardSize)
+        private void initializeBoard(byte i_BoardSize)
         {
-            Board = new Board(boardSize);
+            Board = new Board(i_BoardSize);
+        }
+
+        public void getComputerCellMove(int i_PlayerIndex, eSign playerSign, out Cell o_legalDesiredCell)
+        {
+            o_legalDesiredCell = null;
+        }
+
+        public bool areCellsLegal(Cell i_OriginCell, Cell i_DestCell)
+        {
+            return true;
         }
 
     }
