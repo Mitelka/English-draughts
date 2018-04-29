@@ -14,5 +14,7 @@
         }
 
         public eSign CellSign { get; set; }
+        public byte CellRow { get; }
+        public byte CellCol { get; }
 }
 }

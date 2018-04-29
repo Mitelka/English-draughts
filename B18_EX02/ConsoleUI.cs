@@ -1,5 +1,6 @@
 ﻿namespace B18_EX02
 {
+    using System.Text;
     public class ConsoleUI
     {
         private const int maxCharInPlayerName = 20;
@@ -15,7 +16,7 @@
             byte boardSize = getBoardSize();
             eGameType gameType = getGameType();
             players[0] = new Player(ePlayerType.Human, eSign.O, FirstPlayerName);
-            if (gameType == eGameType.HumenVsHumen)
+            if (gameType == eGameType.HumanVsHuman)
             {
                 players[1] = new Player(ePlayerType.Human, eSign.X, secondPlayerName);
             }
@@ -25,6 +26,7 @@
             }
 
             GameLogic = new GameLogic(players, boardSize, gameType);
+            printBoard();
         }
 
         private static string getPlayerName()
@@ -98,8 +100,8 @@
             bool validGameTypeFlag = false;
             System.Console.WriteLine(@"
 Please enter the desired game type: 
-'1' for HumenVsHumen 
-'2' for HumenVsComputer");
+'1' for HumanVsHuman 
+'2' for HumanVsComputer");
             while (!validGameTypeFlag)
             {
                 if (System.Enum.TryParse(System.Console.ReadLine(), out gameType) && System.Enum.IsDefined(typeof(eGameType), gameType))
@@ -112,7 +114,7 @@ Please enter the desired game type:
                 }
             }
 
-            if (gameType == eGameType.HumenVsHumen)
+            if (gameType == eGameType.HumanVsHuman)
             {
                 secondPlayerName = getPlayerName();
             }
@@ -126,9 +128,71 @@ Please enter the desired game type:
 
         private void printBoard()
         {
-            byte size = GameLogic.BoardSize;
+            StringBuilder boardStringBuilder;
+            //TODO: add clear screen
+            addColNumbersToString(out boardStringBuilder);
+            printBoardRowSep(ref boardStringBuilder);
+            for (byte currentRow = 0; currentRow < GameLogic.Board.BoardSize; currentRow++)
+            {
+                boardStringBuilder.Append($"{(char)('a' + currentRow)}");
+                boardStringBuilder.Append("|");
+                for (byte currentCol = 0; currentCol < GameLogic.Board.BoardSize; currentCol++)
+                {
+                    char signToPrint = getSignToPrint(GameLogic.Board[currentRow, currentCol].CellSign);
+                    boardStringBuilder.Append($" {signToPrint} |");
+                }
+                printBoardRowSep(ref boardStringBuilder);
+            }
+            System.Console.WriteLine(boardStringBuilder);
+        }
 
-            // TODO
+        private void printBoardRowSep(ref StringBuilder io_BoardStringBuilder)
+        {
+            io_BoardStringBuilder.AppendLine();
+            io_BoardStringBuilder.Append(" ");
+            for (byte currentCol = 0; currentCol < GameLogic.Board.BoardSize; currentCol++)
+            {
+                io_BoardStringBuilder.Append("====");
+            }
+            io_BoardStringBuilder.Append("=");
+            io_BoardStringBuilder.AppendLine();
+        }
+
+        private char getSignToPrint(eSign i_CellSign)
+        {
+            char signChar;
+            switch(i_CellSign)
+            {
+                case eSign.Empty:
+                    signChar = ' ';
+                    break;
+                case eSign.O:
+                    signChar = 'O';
+                    break;
+                case eSign.X:
+                    signChar = 'X';
+                    break;
+                case eSign.U:
+                    signChar = 'U';
+                    break;
+                case eSign.K:
+                    signChar = 'K';
+                    break;
+                default:
+                    throw new System.ArgumentOutOfRangeException(nameof(i_CellSign), i_CellSign, null);
+            }
+            return signChar;
+        }
+
+        private void addColNumbersToString(out StringBuilder o_StringBuilder)
+        {
+            o_StringBuilder = new StringBuilder();
+            o_StringBuilder.Append(' ', 3);
+            for (byte currentCol = 0; currentCol < GameLogic.Board.BoardSize; currentCol++)
+            {
+                o_StringBuilder.Append($"{(char)('A' + currentCol)}");
+                o_StringBuilder.Append(' ', 3);
+            }
         }
     }
 }

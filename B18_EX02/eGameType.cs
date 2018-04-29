@@ -2,7 +2,7 @@
 {
     public enum eGameType
     {
-        HumenVsHumen = 1,
-        HumenVsComputer = 2
+        HumanVsHuman = 1,
+        HumanVsComputer = 2
     }   
 }

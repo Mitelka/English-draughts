@@ -7,7 +7,7 @@ namespace B18_EX02
         private Player[] players;
         private byte boardSize;
         private eGameType gameType;
-        private Board gameBoard;
+        //private Board gameBoard;
 
         public GameLogic(Player[] i_players, byte i_boardSize, eGameType i_gameType)
         {
@@ -17,10 +17,12 @@ namespace B18_EX02
             initializeBoard(boardSize);
         }
 
+        internal Board Board { get; set; }
+
         private void initializeBoard(byte boardSize)
         {
-            gameBoard = new Board(boardSize);
+            Board = new Board(boardSize);
         }
-        public byte BoardSize { get; set; }
+
     }
 }
