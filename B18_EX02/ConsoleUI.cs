@@ -130,7 +130,7 @@ Please enter the desired game type:
         {
             StringBuilder boardStringBuilder;
             //TODO: add clear screen
-            addColNumbersToString(out boardStringBuilder);
+            addColLettersToString(out boardStringBuilder);
             printBoardRowSep(ref boardStringBuilder);
             for (byte currentRow = 0; currentRow < GameLogic.Board.BoardSize; currentRow++)
             {
@@ -184,7 +184,7 @@ Please enter the desired game type:
             return signChar;
         }
 
-        private void addColNumbersToString(out StringBuilder o_StringBuilder)
+        private void addColLettersToString(out StringBuilder o_StringBuilder)
         {
             o_StringBuilder = new StringBuilder();
             o_StringBuilder.Append(' ', 3);
@@ -193,6 +193,59 @@ Please enter the desired game type:
                 o_StringBuilder.Append($"{(char)('A' + currentCol)}");
                 o_StringBuilder.Append(' ', 3);
             }
+        }
+
+        public void StartGame()
+        {
+            bool continueGameRoundsFlag = true;
+
+            while(continueGameRoundsFlag)
+            {
+                printBoard();
+                continueGameRoundsFlag = runRound();
+                if(continueGameRoundsFlag)
+                {
+                    resetRound();
+                }
+            }
+        }
+
+        private bool runRound()
+        {
+            bool quitRequest = false;
+            bool isGameOver = false;
+            while(!isGameOver && !quitRequest)
+            {
+                for (byte playerIndex = 0; playerIndex < players.Length; playerIndex++)
+                {
+                    Cell requestedMoveCell = getLegalDesiredCell(playerIndex, ref quitRequest);
+                    if(quitRequest)
+                    {
+                        break;
+                    }
+                    GameLogic.MakeMoveOnBoard(requestedMoveCell, playerIndex);
+                    printBoard();
+                    isGameOver = GameLogic.checkIfGameOver(requestedMoveCell, playerIndex);
+                    if(isGameOver)
+                    {
+                        showResults();
+                    }
+                }
+            }
+            return true;
+        }
+
+        private void resetRound()
+        {
+            GameLogic.Board.ResetBoard();
+        }
+
+        private Cell getLegalDesiredCell(int i_PlayerIndex, ref bool i_QuitRequest)
+        {
+            //if human, get from user the cell
+            //check if legal
+            //return the legal cell
+
         }
     }
 }

@@ -10,7 +10,7 @@
         {
             m_CellRow = i_CellRow;
             m_CellCol = i_CellCol;
-            m_CellSign = i_CellSign;
+            m_CellSign = CellSign = i_CellSign;
         }
 
         public eSign CellSign { get; set; }

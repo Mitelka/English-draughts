@@ -6,7 +6,7 @@
         {
             ConsoleUI consoleGame = new ConsoleUI();
             
-            // consoleGame.StartGame();
+            consoleGame.StartGame();
         }
     }
 }
