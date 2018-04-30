@@ -5,43 +5,43 @@ namespace B18_EX02
 {
     internal class GameLogic
     {
-        private Player[] players;
-        private byte boardSize;
-        private eGameType gameType;
-        public Board gameBoard;
+        private Player[] m_Players;
+        private byte m_BoardSize;
+        private eGameType m_GameType;
+        public Board m_GameBoard;
 
         public GameLogic(Player[] i_players, byte i_boardSize, eGameType i_gameType)
         {
-            players = i_players;
-            boardSize = i_boardSize;
-            gameType = i_gameType;
-            initializeBoard(boardSize);
+            m_Players = i_players;
+            m_BoardSize = i_boardSize;
+            m_GameType = i_gameType;
+            initializeBoard(m_BoardSize);
         }
 
-        internal Board GameBoard { get; set; }
+        internal Board GameBoard { get => m_GameBoard; set => m_GameBoard = value; }
 
         private void initializeBoard(byte i_BoardSize)
         {
-            gameBoard = new Board(i_BoardSize);
+            m_GameBoard = new Board(i_BoardSize);
         }
 
         public void getComputerCellMove(int i_PlayerIndex, eSign playerSign, out Cell o_legalOriginCell, out Cell o_legalDesiredCell)
         {
-            List<Player.PlayerMovelist> potintalMoveList = new List<Player.PlayerMovelist>();
+            List<Player.PlayerMovelist> potentialMoveList = new List<Player.PlayerMovelist>();
             o_legalDesiredCell = null;
             o_legalOriginCell = null;
 
-            foreach (Cell cell in gameBoard.m_PlayBoard)
+            foreach (Cell cell in m_GameBoard.m_PlayBoard)
             {
                 if (cell.CellSign == playerSign)
                 {
-                    foreach (Cell matchCell in gameBoard.m_PlayBoard)
+                    foreach (Cell matchCell in m_GameBoard.m_PlayBoard)
                     {
                         if (matchCell.CellSign == eSign.Empty)
                         {
-                            if (areCellsLegal(cell, matchCell))
+                            if (AreCellsLegal(cell, matchCell))
                             {
-                                potintalMoveList.Add(new Player.PlayerMovelist() { originalCell = cell, desiredCell = matchCell});
+                                potentialMoveList.Add(new Player.PlayerMovelist() { originalCell = cell, desiredCell = matchCell});
 
                             }
 
@@ -52,36 +52,36 @@ namespace B18_EX02
 
             }
             Random rndNumber = new Random();
-            int playerMove = rndNumber.Next(0, potintalMoveList.Count);
-            o_legalOriginCell = potintalMoveList[playerMove].originalCell;
-            o_legalDesiredCell = potintalMoveList[playerMove].desiredCell;
+            int playerMove = rndNumber.Next(0, potentialMoveList.Count);
+            o_legalOriginCell = potentialMoveList[playerMove].originalCell;
+            o_legalDesiredCell = potentialMoveList[playerMove].desiredCell;
         }
 
-        public bool areCellsLegal(Cell i_OriginCell, Cell i_DestCell)
+        public bool AreCellsLegal(Cell i_OriginCell, Cell i_DestCell)
         {
-            bool moveIsLeagel = true;
+            bool moveIsLegal = true;
             if (i_DestCell.CellSign != eSign.Empty)
             {
-                moveIsLeagel = false;
+                moveIsLegal = false;
                
             }
             else if (i_OriginCell.CellSign == eSign.Empty)
             {
-                moveIsLeagel = false;
+                moveIsLegal = false;
             }
-            else if (i_DestCell.CellRow > boardSize || i_DestCell.CellCol > boardSize || i_DestCell.CellRow < 0 || i_DestCell.CellCol < 0)
+            else if (i_DestCell.CellRow > m_BoardSize || i_DestCell.CellCol > m_BoardSize || i_DestCell.CellRow < 0 || i_DestCell.CellCol < 0)
             {
-                moveIsLeagel = false;
+                moveIsLegal = false;
             }
 
             switch (i_OriginCell.CellSign)
             {
                 case eSign.O:
-                    moveIsLeagel = CheakingOplayerCellsLegal(i_OriginCell, i_DestCell);
+                    moveIsLegal = CheckingOplayerCellsLegal(i_OriginCell, i_DestCell);
                     break;
 
                 case eSign.X:
-                    moveIsLeagel =  CheakingXplayerCellsLegal(i_OriginCell, i_DestCell);
+                    moveIsLegal =  CheckingXplayerCellsLegal(i_OriginCell, i_DestCell);
                     break;
                 case eSign.K:
                     //TODO
@@ -91,77 +91,77 @@ namespace B18_EX02
                     break;
             }
 
-            return moveIsLeagel;
+            return moveIsLegal;
         }
-        public bool isPossibeleToEat(Cell i_TheCellInTheMidlle)
+        public bool IsPossibleToEat(Cell i_TheCellInTheMidlle)
         {
             return true; // Todo
         }
 
-        public bool CheakingOplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
+        public bool CheckingOplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
         {
-            bool isLeagel = true;
+            bool isLegal = true;
             if (i_OriginCell.CellRow <= i_DestCell.CellRow)
             {
-                isLeagel = false;
+                isLegal = false;
             }
             else if (i_OriginCell.CellRow < i_DestCell.CellRow - 2 || i_OriginCell.CellCol < i_DestCell.CellCol - 2 || i_OriginCell.CellCol < i_DestCell.CellCol + 2)
             {
-                isLeagel = false;
+                isLegal = false;
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && i_OriginCell.CellCol == i_DestCell.CellCol - 2)
             {
-                if (!isPossibeleToEat(gameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol + 1]))
+                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol + 1]))
                 {
-                    isLeagel = false;
+                    isLegal = false;
                 }
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && i_OriginCell.CellCol == i_DestCell.CellCol + 2)
             {
-                if (!isPossibeleToEat(gameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol - 1]))
+                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol - 1]))
                 {
-                    isLeagel = false;
+                    isLegal = false;
                 }
             }
 
-            return isLeagel;
+            return isLegal;
         }
 
-        public bool CheakingXplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
+        public bool CheckingXplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
         {
-            bool isLeagel = true;
+            bool isLegal = true;
 
             if (i_OriginCell.CellRow >= i_DestCell.CellRow)
             {
-                isLeagel = false;
+                isLegal = false;
             }
 
             else if (i_OriginCell.CellRow > i_DestCell.CellRow + 2 || i_OriginCell.CellCol < i_DestCell.CellCol - 2 || i_OriginCell.CellCol < i_DestCell.CellCol + 2)
             {
-                isLeagel = false;
+                isLegal = false;
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && (i_OriginCell.CellCol == i_DestCell.CellCol - 2)) 
             {
-                if (!isPossibeleToEat(gameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1]))
+                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1]))
                 {
-                    isLeagel = false;
+                    isLegal = false;
                 }
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && (i_OriginCell.CellCol == i_DestCell.CellCol +2))
             {
-                if (!isPossibeleToEat(gameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol + 1]))
+                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol + 1]))
                 {
-                    isLeagel = false;
+                    isLegal = false;
                 }
             }
 
-            return isLeagel;
+            return isLegal;
         }
 
         public void MakeMoveOnBoard(Cell i_OriginCell, Cell i_DestCell, int i_PlayerIndex)
         {
-            gameBoard[i_OriginCell] = i_OriginCell;
-            gameBoard[i_DestCell] = i_DestCell;
+            m_GameBoard[i_OriginCell] = i_OriginCell;
+            m_GameBoard[i_DestCell] = i_DestCell;
         }
 
     }

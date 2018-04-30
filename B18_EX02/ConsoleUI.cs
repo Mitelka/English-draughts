@@ -133,13 +133,13 @@ Please enter the desired game type:
             //TODO: add clear screen
             addColLettersToString(out boardStringBuilder);
             printBoardRowSep(ref boardStringBuilder);
-            for (byte currentRow = 0; currentRow < m_GameLogic.gameBoard.BoardSize; currentRow++)
+            for (byte currentRow = 0; currentRow < m_GameLogic.GameBoard.BoardSize; currentRow++)
             {
                 boardStringBuilder.Append($"{(char)('a' + currentRow)}");
                 boardStringBuilder.Append("|");
-                for (byte currentCol = 0; currentCol < m_GameLogic.gameBoard.BoardSize; currentCol++)
+                for (byte currentCol = 0; currentCol < m_GameLogic.GameBoard.BoardSize; currentCol++)
                 {
-                    char signToPrint = getSignToPrint(m_GameLogic.gameBoard[currentRow, currentCol].CellSign);
+                    char signToPrint = getSignToPrint(m_GameLogic.GameBoard[currentRow, currentCol].CellSign);
                     boardStringBuilder.Append($" {signToPrint} |");
                 }
                 printBoardRowSep(ref boardStringBuilder);
@@ -151,7 +151,7 @@ Please enter the desired game type:
         {
             io_BoardStringBuilder.AppendLine();
             io_BoardStringBuilder.Append(" ");
-            for (byte currentCol = 0; currentCol < m_GameLogic.gameBoard.BoardSize; currentCol++)
+            for (byte currentCol = 0; currentCol < m_GameLogic.GameBoard.BoardSize; currentCol++)
             {
                 io_BoardStringBuilder.Append("====");
             }
@@ -189,7 +189,7 @@ Please enter the desired game type:
         {
             o_StringBuilder = new StringBuilder();
             o_StringBuilder.Append(' ', 3);
-            for (byte currentCol = 0; currentCol < m_GameLogic.gameBoard.BoardSize; currentCol++)
+            for (byte currentCol = 0; currentCol < m_GameLogic.GameBoard.BoardSize; currentCol++)
             {
                 o_StringBuilder.Append($"{(char)('A' + currentCol)}");
                 o_StringBuilder.Append(' ', 3);
@@ -239,7 +239,7 @@ Please enter the desired game type:
 
         private void resetRound()
         {
-            m_GameLogic.gameBoard.ResetBoard();
+            m_GameLogic.GameBoard.ResetBoard();
         }
 
         private void getLegalDesiredCell(int i_PlayerIndex, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell)
@@ -278,7 +278,7 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                 }
                 if(!m_IsGameOver)
                 {
-                    if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.areCellsLegal(o_LegalOriginCell, o_LegalDestCell))
+                    if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.AreCellsLegal(o_LegalOriginCell, o_LegalDestCell))
                     {
                         o_LegalDestCell.CellSign = i_PlayerSign;
                         o_LegalOriginCell.CellSign = eSign.Empty;
