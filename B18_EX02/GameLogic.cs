@@ -101,7 +101,7 @@ namespace B18_EX02
             {
                 isLegal = false;
             }
-            else if (i_OriginCell.CellRow < i_DestCell.CellRow - 2 || i_OriginCell.CellCol < i_DestCell.CellCol - 2 || i_OriginCell.CellCol < i_DestCell.CellCol + 2)
+            else if (i_OriginCell.CellRow < i_DestCell.CellRow - 2 || i_DestCell.CellCol - 2 > i_OriginCell.CellCol && i_OriginCell.CellCol > i_DestCell.CellCol + 2)
             {
                 isLegal = false;
             }
@@ -132,7 +132,7 @@ namespace B18_EX02
                 isLegal = false;
             }
 
-            else if (i_OriginCell.CellRow > i_DestCell.CellRow + 2 || i_OriginCell.CellCol < i_DestCell.CellCol - 2 || i_OriginCell.CellCol < i_DestCell.CellCol + 2)
+            else if (i_OriginCell.CellRow > i_DestCell.CellRow + 2 || i_DestCell.CellCol - 2 > i_OriginCell.CellCol && i_OriginCell.CellCol > i_DestCell.CellCol + 2)
             {
                 isLegal = false;
             }
