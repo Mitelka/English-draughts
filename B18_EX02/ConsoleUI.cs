@@ -253,7 +253,7 @@ Please enter the desired game type:
             }
             else
             {
-                GameLogic.getComputerCellMove(i_PlayerIndex, playerSign, out legalDesiredCell);    
+                GameLogic.getComputerCellMove(i_PlayerIndex, playerSign, out legalOriginCell, out legalDesiredCell);    
             }
 
             return legalDesiredCell;
