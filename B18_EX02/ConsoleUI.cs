@@ -3,30 +3,30 @@
     using System.Text;
     public class ConsoleUI
     {
-        private const int maxCharInPlayerName = 20;
-        private const byte numOfPlayers = 2;
-        private static string FirstPlayerName = " ";
-        private static string secondPlayerName = " ";
-        private readonly Player[] players = new Player[numOfPlayers];
-        private bool isGameOver = false;
-        private readonly GameLogic GameLogic;
+        private const int k_MaxCharInPlayerName = 20;
+        private const byte k_NumOfPlayers = 2;
+        private static string s_FirstPlayerName = " ";
+        private static string s_SecondPlayerName = " ";
+        private readonly Player[] m_Players = new Player[k_NumOfPlayers];
+        private bool m_IsGameOver = false;
+        private readonly GameLogic m_GameLogic;
 
         public ConsoleUI()
         {
-            FirstPlayerName = getPlayerName();
+            s_FirstPlayerName = getPlayerName();
             byte boardSize = getBoardSize();
             eGameType gameType = getGameType();
-            players[0] = new Player(ePlayerType.Human, eSign.O, FirstPlayerName);
+            m_Players[0] = new Player(ePlayerType.Human, eSign.O, s_FirstPlayerName);
             if (gameType == eGameType.HumanVsHuman)
             {
-                players[1] = new Player(ePlayerType.Human, eSign.X, secondPlayerName);
+                m_Players[1] = new Player(ePlayerType.Human, eSign.X, s_SecondPlayerName);
             }
             else
             {
-                players[1] = new Player(ePlayerType.Computer, eSign.X, secondPlayerName);
+                m_Players[1] = new Player(ePlayerType.Computer, eSign.X, s_SecondPlayerName);
             }
 
-            GameLogic = new GameLogic(players, boardSize, gameType);
+            m_GameLogic = new GameLogic(m_Players, boardSize, gameType);
             printBoard();
         }
 
@@ -42,7 +42,7 @@
             {
                 name = System.Console.ReadLine();
 
-                if (name.Length > maxCharInPlayerName)
+                if (name.Length > k_MaxCharInPlayerName)
                 {
                     System.Console.WriteLine("Player Name is to big!! try again");               
                 }
@@ -117,11 +117,11 @@ Please enter the desired game type:
 
             if (gameType == eGameType.HumanVsHuman)
             {
-                secondPlayerName = getPlayerName();
+                s_SecondPlayerName = getPlayerName();
             }
             else
             {
-                secondPlayerName = "Computer";
+                s_SecondPlayerName = "Computer";
             }
 
             return gameType;
@@ -133,13 +133,13 @@ Please enter the desired game type:
             //TODO: add clear screen
             addColLettersToString(out boardStringBuilder);
             printBoardRowSep(ref boardStringBuilder);
-            for (byte currentRow = 0; currentRow < GameLogic.gameBoard.BoardSize; currentRow++)
+            for (byte currentRow = 0; currentRow < m_GameLogic.gameBoard.BoardSize; currentRow++)
             {
                 boardStringBuilder.Append($"{(char)('a' + currentRow)}");
                 boardStringBuilder.Append("|");
-                for (byte currentCol = 0; currentCol < GameLogic.gameBoard.BoardSize; currentCol++)
+                for (byte currentCol = 0; currentCol < m_GameLogic.gameBoard.BoardSize; currentCol++)
                 {
-                    char signToPrint = getSignToPrint(GameLogic.gameBoard[currentRow, currentCol].CellSign);
+                    char signToPrint = getSignToPrint(m_GameLogic.gameBoard[currentRow, currentCol].CellSign);
                     boardStringBuilder.Append($" {signToPrint} |");
                 }
                 printBoardRowSep(ref boardStringBuilder);
@@ -151,7 +151,7 @@ Please enter the desired game type:
         {
             io_BoardStringBuilder.AppendLine();
             io_BoardStringBuilder.Append(" ");
-            for (byte currentCol = 0; currentCol < GameLogic.gameBoard.BoardSize; currentCol++)
+            for (byte currentCol = 0; currentCol < m_GameLogic.gameBoard.BoardSize; currentCol++)
             {
                 io_BoardStringBuilder.Append("====");
             }
@@ -189,7 +189,7 @@ Please enter the desired game type:
         {
             o_StringBuilder = new StringBuilder();
             o_StringBuilder.Append(' ', 3);
-            for (byte currentCol = 0; currentCol < GameLogic.gameBoard.BoardSize; currentCol++)
+            for (byte currentCol = 0; currentCol < m_GameLogic.gameBoard.BoardSize; currentCol++)
             {
                 o_StringBuilder.Append($"{(char)('A' + currentCol)}");
                 o_StringBuilder.Append(' ', 3);
@@ -214,9 +214,9 @@ Please enter the desired game type:
         private bool runRound()
         {
             bool quitRequest = false;
-            while(!isGameOver && !quitRequest)
+            while(!m_IsGameOver && !quitRequest)
             {
-                for (byte playerIndex = 0; playerIndex < players.Length; playerIndex++)
+                for (byte playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
                 {
                     Cell requestedMoveCell = getLegalDesiredCell(playerIndex, ref quitRequest);
                     if(quitRequest)
@@ -226,9 +226,9 @@ Please enter the desired game type:
                     //GameLogic.MakeMoveOnBoard(requestedMoveCell, playerIndex);
                     printBoard();
                     //isGameOver = GameLogic.checkIfGameOver(requestedMoveCell, playerIndex);
-                    if(isGameOver)
+                    if(m_IsGameOver)
                     {
-                        //showResults();
+                        showResults();
                     }
                 }
             }
@@ -237,15 +237,15 @@ Please enter the desired game type:
 
         private void resetRound()
         {
-            GameLogic.gameBoard.ResetBoard();
+            m_GameLogic.gameBoard.ResetBoard();
         }
 
         private Cell getLegalDesiredCell(int i_PlayerIndex, ref bool io_QuitRequest)
         {
             Cell legalDesiredCell;
             Cell legalOriginCell;
-            eSign playerSign = players[i_PlayerIndex].Sign;
-            ePlayerType playerType = players[i_PlayerIndex].PlayerType;
+            eSign playerSign = m_Players[i_PlayerIndex].Sign;
+            ePlayerType playerType = m_Players[i_PlayerIndex].PlayerType;
 
             if(playerType == ePlayerType.Human)
             {
@@ -253,7 +253,7 @@ Please enter the desired game type:
             }
             else
             {
-                GameLogic.getComputerCellMove(i_PlayerIndex, playerSign, out legalOriginCell, out legalDesiredCell);    
+                m_GameLogic.getComputerCellMove(i_PlayerIndex, playerSign, out legalOriginCell, out legalDesiredCell);    
             }
 
             return legalDesiredCell;
@@ -265,8 +265,8 @@ Please enter the desired game type:
             o_LegalOriginCell = null;
             o_LegalDestCell = null;
             //TODO: in the example the previous step is written, should we do it as well?
-            System.Console.WriteLine($@"{players[i_PlayerIndex].PlayerName}'s ({players[i_PlayerIndex].Sign}) turn:
-Enter your desirable coordinate as follows: PrevRowPrevCol > RowCol");
+            System.Console.WriteLine($@"{m_Players[i_PlayerIndex].PlayerName}'s ({m_Players[i_PlayerIndex].Sign}) turn:
+Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
 
             while(!isLegalMove)
             {
@@ -276,9 +276,9 @@ Enter your desirable coordinate as follows: PrevRowPrevCol > RowCol");
                 {
                     continue;
                 }
-                if(!isGameOver)
+                if(!m_IsGameOver)
                 {
-                    if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && GameLogic.areCellsLegal(o_LegalOriginCell, o_LegalDestCell))
+                    if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.areCellsLegal(o_LegalOriginCell, o_LegalDestCell))
                     {
                         o_LegalDestCell.CellSign = i_PlayerSign;
                         o_LegalOriginCell.CellSign = eSign.Empty;
@@ -306,6 +306,12 @@ Enter your desirable coordinate as follows: PrevRowPrevCol > RowCol");
             }
 
             return userInput;
+        }
+
+        private void showResults()
+        {
+            StringBuilder strToPrint = new StringBuilder();
+
         }
     }
 }

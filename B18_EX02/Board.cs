@@ -2,13 +2,13 @@
 {
     public class Board
     {
-        private readonly byte NumOfRows;
-        private readonly byte NumOfCols;
+        private readonly byte m_NumOfRows;
+        private readonly byte m_NumOfCols;
         public Cell[,] m_PlayBoard;
 
         public Board(byte i_boardSize)
         {
-            NumOfRows = NumOfCols = BoardSize = i_boardSize;
+            m_NumOfRows = m_NumOfCols = i_boardSize;
             setBoard();
         }
 
@@ -17,8 +17,8 @@
             setBoardInitialValues();
         }
 
-        public byte BoardSize { get; }
-        public Cell[,] M_PlayBoard { get; set; } 
+        public byte BoardSize { get => m_NumOfCols; }
+        public Cell[,] PlayBoard { get => m_PlayBoard ; set => m_PlayBoard = value; } 
 
         public Cell this[Cell i_CurrentCell]
         {
@@ -29,7 +29,7 @@
 
         private void setBoard()
         {
-            m_PlayBoard = new Cell[NumOfRows, NumOfCols];
+            m_PlayBoard = new Cell[m_NumOfRows, m_NumOfCols];
             setBoardInitialValues();
         }
 
@@ -37,7 +37,7 @@
         {
             int numOfRowsForPlayer = (BoardSize - 2) / 2;
             eSign signToSet;
-            for (byte curRow = 0; curRow < NumOfRows; curRow++)
+            for (byte curRow = 0; curRow < m_NumOfRows; curRow++)
             {
                 if (curRow < numOfRowsForPlayer)
                 {
@@ -51,7 +51,7 @@
                 {
                     signToSet = eSign.X;
                 }
-                for (byte curCol = 0; curCol < NumOfCols; curCol++)
+                for (byte curCol = 0; curCol < m_NumOfCols; curCol++)
                 {
                     if ((curCol + curRow) % 2 == 0)
                     {

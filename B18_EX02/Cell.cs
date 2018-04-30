@@ -9,14 +9,14 @@
 
         public Cell(byte i_CellRow, byte i_CellCol, eSign i_CellSign)
         {
-            m_CellRow = CellRow = i_CellRow;
-            m_CellCol = CellCol = i_CellCol;
-            m_CellSign = CellSign = i_CellSign;
+            m_CellRow = i_CellRow;
+            m_CellCol = i_CellCol;
+            m_CellSign = i_CellSign;
         }
 
-        public eSign CellSign { get; set; }
-        public byte CellRow { get; set; }
-        public byte CellCol { get; set; }
+        public eSign CellSign { get => m_CellSign; set => m_CellSign = value; }
+        public byte CellRow { get => m_CellRow; set => m_CellRow = value; }
+        public byte CellCol { get => m_CellCol; set => m_CellCol = value; }
 
         public static bool Parse(string i_Input, out Cell o_ParsedCell)
         {
