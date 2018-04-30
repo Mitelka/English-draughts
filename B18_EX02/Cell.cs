@@ -2,11 +2,11 @@
 {
     public class Cell
     {
+        private const int k_LegalNumberOfInput = 2;
         private byte m_CellRow;
         private byte m_CellCol;
         private eSign m_CellSign;
-        private const int k_LegalNumberOfInput = 2;
-
+        
         public Cell(byte i_CellRow, byte i_CellCol, eSign i_CellSign)
         {
             m_CellRow = i_CellRow;
@@ -15,7 +15,9 @@
         }
 
         public eSign CellSign { get => m_CellSign; set => m_CellSign = value; }
+
         public byte CellRow { get => m_CellRow; set => m_CellRow = value; }
+
         public byte CellCol { get => m_CellCol; set => m_CellCol = value; }
 
         public static bool Parse(string i_Input, out Cell o_ParsedCell)
@@ -30,6 +32,7 @@
                     isValidInput = true;
                 }
             }
+
             return isValidInput;
         }
 }

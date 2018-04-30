@@ -1,6 +1,7 @@
 ﻿namespace B18_EX02
 {
     using System.Text;
+
     public class ConsoleUI
     {
         private const int k_MaxCharInPlayerName = 20;
@@ -130,7 +131,7 @@ Please enter the desired game type:
         private void printBoard()
         {
             StringBuilder boardStringBuilder;
-            //TODO: add clear screen
+            //  TODO: add clear screen
             addColLettersToString(out boardStringBuilder);
             printBoardRowSep(ref boardStringBuilder);
             for (byte currentRow = 0; currentRow < m_GameLogic.GameBoard.BoardSize; currentRow++)
@@ -140,10 +141,13 @@ Please enter the desired game type:
                 for (byte currentCol = 0; currentCol < m_GameLogic.GameBoard.BoardSize; currentCol++)
                 {
                     char signToPrint = getSignToPrint(m_GameLogic.GameBoard[currentRow, currentCol].CellSign);
+
                     boardStringBuilder.Append($" {signToPrint} |");
                 }
+
                 printBoardRowSep(ref boardStringBuilder);
             }
+
             System.Console.WriteLine(boardStringBuilder);
         }
 
@@ -155,6 +159,7 @@ Please enter the desired game type:
             {
                 io_BoardStringBuilder.Append("====");
             }
+
             io_BoardStringBuilder.Append("=");
             io_BoardStringBuilder.AppendLine();
         }
@@ -182,6 +187,7 @@ Please enter the desired game type:
                 default:
                     throw new System.ArgumentOutOfRangeException(nameof(i_CellSign), i_CellSign, null);
             }
+
             return signChar;
         }
 
@@ -225,15 +231,17 @@ Please enter the desired game type:
                     {
                         break;
                     }
+
                     m_GameLogic.MakeMoveOnBoard(originCell, destCell, playerIndex);
                     printBoard();
-                    //isGameOver = GameLogic.checkIfGameOver(requestedMoveCell, playerIndex);
+                    // isGameOver = GameLogic.checkIfGameOver(requestedMoveCell, playerIndex);
                     if(m_IsGameOver)
                     {
                         showResults();
                     }
                 }
             }
+
             return true;
         }
 
@@ -264,7 +272,7 @@ Please enter the desired game type:
             bool isLegalMove = false;
             o_LegalOriginCell = null;
             o_LegalDestCell = null;
-            //TODO: in the example the previous step is written, should we do it as well?
+            // TODO: in the example the previous step is written, should we do it as well?
             System.Console.WriteLine($@"{m_Players[i_PlayerIndex].PlayerName}'s ({m_Players[i_PlayerIndex].Sign}) turn:
 Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
 
@@ -276,9 +284,9 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                 {
                     continue;
                 }
-                if(!m_IsGameOver)
-                {
-                    
+
+                if (!m_IsGameOver)
+                {                  
                     //Cell.Parse(splitInput[0], out o_LegalOriginCell)
                     if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.AreCellsLegal(o_LegalOriginCell, o_LegalDestCell, i_PlayerSign))
                     {
@@ -313,7 +321,6 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
         private void showResults()
         {
             StringBuilder strToPrint = new StringBuilder();
-
         }
     }
 }

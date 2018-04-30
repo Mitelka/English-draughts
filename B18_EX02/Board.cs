@@ -18,7 +18,8 @@
         }
 
         public byte BoardSize { get => m_NumOfCols; }
-        public Cell[,] PlayBoard { get => m_PlayBoard ; set => m_PlayBoard = value; } 
+
+        public Cell[,] PlayBoard { get => m_PlayBoard; set => m_PlayBoard = value; }
 
         public Cell this[Cell i_CurrentCell]
         {
@@ -52,6 +53,7 @@
                 {
                     signToSet = eSign.X;
                 }
+
                 for (byte curCol = 0; curCol < m_NumOfCols; curCol++)
                 {
                     if ((curCol + curRow) % 2 == 0)

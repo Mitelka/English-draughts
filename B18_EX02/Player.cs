@@ -10,6 +10,7 @@
         internal class PlayerMovelist
         {
             public Cell originalCell { get; set; }
+
             public Cell desiredCell { get; set; }
         }
 

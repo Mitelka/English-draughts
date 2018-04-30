@@ -41,13 +41,13 @@ namespace B18_EX02
                         {
                             if (AreCellsLegal(cell, matchCell, playerSign))
                             {
-                                potentialMoveList.Add(new Player.PlayerMovelist() { originalCell = cell, desiredCell = matchCell});
-
+                                potentialMoveList.Add(new Player.PlayerMovelist() {originalCell = cell, desiredCell = matchCell});
                             }
                         }
                     }
                 }                 
             }
+
             Random rndNumber = new Random();
             int playerMove = rndNumber.Next(0, potentialMoveList.Count);
             o_legalOriginCell = potentialMoveList[playerMove].originalCell;
@@ -74,7 +74,6 @@ namespace B18_EX02
             {
                 moveIsLegal = false;
             }
-
             else
             {
                 switch (m_GameBoard[i_OriginCell].CellSign)
@@ -87,16 +86,17 @@ namespace B18_EX02
                         moveIsLegal = CheckingXplayerCellsLegal(i_OriginCell, i_DestCell);
                         break;
                     case eSign.K:
-                        //TODO
+                        // TODO
                         break;
                     case eSign.U:
-                        //TODO
+                        // TODO
                         break;
                 }
             }
 
             return moveIsLegal;
         }
+
         public bool IsPossibleToEat(Cell i_TheCellInTheMidlle)
         {
             return true; // Todo
@@ -134,26 +134,41 @@ namespace B18_EX02
         public bool CheckingXplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
         {
             bool isLegal = true;
+            int cheakingColFowardOrBack;
+            cheakingColFowardOrBack = i_OriginCell.CellCol - i_DestCell.CellCol;
 
             if (i_OriginCell.CellRow <= i_DestCell.CellRow || i_OriginCell.CellCol == i_DestCell.CellCol)
             {
                 isLegal = false;
             }
-
             else if (i_OriginCell.CellRow > i_DestCell.CellRow + 2 || i_DestCell.CellCol - 2 > i_OriginCell.CellCol && i_OriginCell.CellCol > i_DestCell.CellCol + 2)
             {
                 isLegal = false;
             }
-            else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && (i_OriginCell.CellCol == i_DestCell.CellCol - 2)) 
+            else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && (i_OriginCell.CellCol == i_DestCell.CellCol - 2))
             {
                 if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1]))
                 {
                     isLegal = false;
                 }
             }
-            else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && (i_OriginCell.CellCol == i_DestCell.CellCol +2))
+            else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && (i_OriginCell.CellCol == i_DestCell.CellCol + 2))
             {
                 if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol + 1]))
+                {
+                    isLegal = false;
+                }
+            }    
+            else if (cheakingColFowardOrBack > 0)
+            { 
+                if (i_OriginCell.CellRow - i_DestCell.CellRow != i_OriginCell.CellCol - i_DestCell.CellCol)
+                {
+                    isLegal = false;
+                }             
+            }
+            else if (cheakingColFowardOrBack < 0)
+            {
+                if (i_OriginCell.CellRow - i_DestCell.CellRow != i_DestCell.CellCol - i_OriginCell.CellCol)
                 {
                     isLegal = false;
                 }
@@ -167,6 +182,5 @@ namespace B18_EX02
             m_GameBoard[i_OriginCell] = i_OriginCell;
             m_GameBoard[i_DestCell] = i_DestCell;
         }
-
     }
 }
