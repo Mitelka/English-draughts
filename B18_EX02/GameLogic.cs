@@ -97,7 +97,7 @@ namespace B18_EX02
         public bool CheckingOplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
         {
             bool isLegal = true;
-            if (i_OriginCell.CellRow <= i_DestCell.CellRow)
+            if (i_OriginCell.CellRow >= i_DestCell.CellRow)
             {
                 isLegal = false;
             }
@@ -127,7 +127,7 @@ namespace B18_EX02
         {
             bool isLegal = true;
 
-            if (i_OriginCell.CellRow >= i_DestCell.CellRow)
+            if (i_OriginCell.CellRow <= i_DestCell.CellRow)
             {
                 isLegal = false;
             }
