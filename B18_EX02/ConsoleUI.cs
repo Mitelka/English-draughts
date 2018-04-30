@@ -264,7 +264,7 @@ Please enter the desired game type:
             bool isLegalMove = false;
             o_LegalOriginCell = null;
             o_LegalDestCell = null;
-
+            //TODO: in the example the previous step is written, should we do it as well?
             System.Console.WriteLine($@"{players[i_PlayerIndex].PlayerName}'s ({players[i_PlayerIndex].Sign}) turn:
 Enter your desirable coordinate as follows: PrevRowPrevCol > RowCol");
 

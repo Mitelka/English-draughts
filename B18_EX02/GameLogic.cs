@@ -24,9 +24,10 @@ namespace B18_EX02
             Board = new Board(i_BoardSize);
         }
 
-        public void getComputerCellMove(int i_PlayerIndex, eSign playerSign, out Cell o_legalDesiredCell)
+        public void getComputerCellMove(int i_PlayerIndex, eSign playerSign, out Cell o_legalOriginCell, out Cell o_legalDesiredCell)
         {
             o_legalDesiredCell = null;
+            o_legalOriginCell = null;
         }
 
         public bool areCellsLegal(Cell i_OriginCell, Cell i_DestCell)
