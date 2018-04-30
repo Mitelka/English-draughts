@@ -44,12 +44,9 @@ namespace B18_EX02
                                 potentialMoveList.Add(new Player.PlayerMovelist() { originalCell = cell, desiredCell = matchCell});
 
                             }
-
                         }
                     }
-                    
                 }                 
-
             }
             Random rndNumber = new Random();
             int playerMove = rndNumber.Next(0, potentialMoveList.Count);
@@ -60,21 +57,20 @@ namespace B18_EX02
         public bool AreCellsLegal(Cell i_OriginCell, Cell i_DestCell)
         {
             bool moveIsLegal = true;
-            if (i_DestCell.CellSign != eSign.Empty)
-            {
-                moveIsLegal = false;
-               
-            }
-            else if (i_OriginCell.CellSign == eSign.Empty)
+            if (m_GameBoard[i_DestCell].CellSign != eSign.Empty)
             {
                 moveIsLegal = false;
             }
-            else if (i_DestCell.CellRow > m_BoardSize || i_DestCell.CellCol > m_BoardSize || i_DestCell.CellRow < 0 || i_DestCell.CellCol < 0)
+            else if (m_GameBoard[i_OriginCell].CellSign == eSign.Empty)
+            {
+                moveIsLegal = false;
+            }
+            else if (m_GameBoard[i_DestCell].CellRow > m_BoardSize || m_GameBoard[i_DestCell].CellCol > m_BoardSize || m_GameBoard[i_DestCell].CellRow < 0 || m_GameBoard[i_DestCell].CellCol < 0)
             {
                 moveIsLegal = false;
             }
 
-            switch (i_OriginCell.CellSign)
+            switch (m_GameBoard[i_OriginCell].CellSign)
             {
                 case eSign.O:
                     moveIsLegal = CheckingOplayerCellsLegal(i_OriginCell, i_DestCell);
