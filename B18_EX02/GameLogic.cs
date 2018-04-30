@@ -39,7 +39,7 @@ namespace B18_EX02
                     {
                         if (matchCell.CellSign == eSign.Empty)
                         {
-                            if (AreCellsLegal(cell, matchCell))
+                            if (AreCellsLegal(cell, matchCell, playerSign))
                             {
                                 potentialMoveList.Add(new Player.PlayerMovelist() { originalCell = cell, desiredCell = matchCell});
 
@@ -54,9 +54,14 @@ namespace B18_EX02
             o_legalDesiredCell = potentialMoveList[playerMove].desiredCell;
         }
 
-        public bool AreCellsLegal(Cell i_OriginCell, Cell i_DestCell)
+        public bool AreCellsLegal(Cell i_OriginCell, Cell i_DestCell, eSign i_PlayerSign)
         {
             bool moveIsLegal = true;
+            //if (i_OriginCell.CellSign != i_PlayerSign)
+            //{
+               // moveIsLegal = false;
+            //}
+            
             if (m_GameBoard[i_DestCell].CellSign != eSign.Empty)
             {
                 moveIsLegal = false;
@@ -70,21 +75,24 @@ namespace B18_EX02
                 moveIsLegal = false;
             }
 
-            switch (m_GameBoard[i_OriginCell].CellSign)
+            else
             {
-                case eSign.O:
-                    moveIsLegal = CheckingOplayerCellsLegal(i_OriginCell, i_DestCell);
-                    break;
+                switch (m_GameBoard[i_OriginCell].CellSign)
+                {
+                    case eSign.O:
+                        moveIsLegal = CheckingOplayerCellsLegal(i_OriginCell, i_DestCell);
+                        break;
 
-                case eSign.X:
-                    moveIsLegal =  CheckingXplayerCellsLegal(i_OriginCell, i_DestCell);
-                    break;
-                case eSign.K:
-                    //TODO
-                    break;
-                case eSign.U:
-                    //TODO
-                    break;
+                    case eSign.X:
+                        moveIsLegal = CheckingXplayerCellsLegal(i_OriginCell, i_DestCell);
+                        break;
+                    case eSign.K:
+                        //TODO
+                        break;
+                    case eSign.U:
+                        //TODO
+                        break;
+                }
             }
 
             return moveIsLegal;
@@ -97,7 +105,7 @@ namespace B18_EX02
         public bool CheckingOplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
         {
             bool isLegal = true;
-            if (i_OriginCell.CellRow >= i_DestCell.CellRow)
+            if (i_OriginCell.CellRow >= i_DestCell.CellRow || i_OriginCell.CellCol == i_DestCell.CellCol)
             {
                 isLegal = false;
             }
@@ -127,7 +135,7 @@ namespace B18_EX02
         {
             bool isLegal = true;
 
-            if (i_OriginCell.CellRow <= i_DestCell.CellRow)
+            if (i_OriginCell.CellRow <= i_DestCell.CellRow || i_OriginCell.CellCol == i_DestCell.CellCol)
             {
                 isLegal = false;
             }

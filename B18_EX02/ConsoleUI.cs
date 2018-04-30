@@ -280,7 +280,7 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                 {
                     
                     //Cell.Parse(splitInput[0], out o_LegalOriginCell)
-                    if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.AreCellsLegal(o_LegalOriginCell, o_LegalDestCell))
+                    if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.AreCellsLegal(o_LegalOriginCell, o_LegalDestCell, i_PlayerSign))
                     {
                         o_LegalDestCell.CellSign = i_PlayerSign;
                         o_LegalOriginCell.CellSign = eSign.Empty;
