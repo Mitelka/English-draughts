@@ -15,8 +15,8 @@
         }
 
         public eSign CellSign { get; set; }
-        public byte CellRow { get; }
-        public byte CellCol { get; }
+        public byte CellRow { get; set; }
+        public byte CellCol { get; set; }
 
         public static bool Parse(string i_Input, out Cell o_ParsedCell)
         {

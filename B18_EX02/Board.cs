@@ -18,6 +18,7 @@
         }
 
         public byte BoardSize { get; }
+        public Cell[,] PlayBoard { get; set; }
 
         public Cell this[Cell i_CurrentCell]
         {

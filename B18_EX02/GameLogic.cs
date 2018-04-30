@@ -7,7 +7,7 @@ namespace B18_EX02
         private Player[] players;
         private byte boardSize;
         private eGameType gameType;
-        //private Board gameBoard;
+        private Board gameBoard;
 
         public GameLogic(Player[] i_players, byte i_boardSize, eGameType i_gameType)
         {
@@ -28,6 +28,26 @@ namespace B18_EX02
         {
             o_legalDesiredCell = null;
             o_legalOriginCell = null;
+
+            foreach (Cell cell in gameBoard.PlayBoard)
+            {
+                if (cell.CellSign == playerSign)
+                {
+                    Cell potintalCell = null;
+                    potintalCell.CellCol = cell.CellCol++;
+                    potintalCell.CellRow = cell.CellRow++;
+                    {
+                        if (potintalCell.CellSign == eSign.Empty)
+                        {
+                            o_legalOriginCell = cell;
+                            o_legalDesiredCell = potintalCell;
+                        }
+                    }
+
+         
+                }
+            }
+           
         }
 
         public bool areCellsLegal(Cell i_OriginCell, Cell i_DestCell)
