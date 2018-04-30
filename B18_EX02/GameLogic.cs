@@ -62,5 +62,11 @@ namespace B18_EX02
             return true;
         }
 
+        public void MakeMoveOnBoard(Cell i_OriginCell, Cell i_DestCell, int i_PlayerIndex)
+        {
+            gameBoard[i_OriginCell] = i_OriginCell;
+            gameBoard[i_DestCell] = i_DestCell;
+        }
+
     }
 }

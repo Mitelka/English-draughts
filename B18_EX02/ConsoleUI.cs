@@ -213,17 +213,19 @@ Please enter the desired game type:
 
         private bool runRound()
         {
+            Cell originCell;
+            Cell destCell;
             bool quitRequest = false;
             while(!m_IsGameOver && !quitRequest)
             {
                 for (byte playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
                 {
-                    Cell requestedMoveCell = getLegalDesiredCell(playerIndex, ref quitRequest);
+                    getLegalDesiredCell(playerIndex, ref quitRequest, out originCell, out destCell);
                     if(quitRequest)
                     {
                         break;
                     }
-                    //GameLogic.MakeMoveOnBoard(requestedMoveCell, playerIndex);
+                    m_GameLogic.MakeMoveOnBoard(originCell, destCell, playerIndex);
                     printBoard();
                     //isGameOver = GameLogic.checkIfGameOver(requestedMoveCell, playerIndex);
                     if(m_IsGameOver)
@@ -240,23 +242,21 @@ Please enter the desired game type:
             m_GameLogic.gameBoard.ResetBoard();
         }
 
-        private Cell getLegalDesiredCell(int i_PlayerIndex, ref bool io_QuitRequest)
+        private void getLegalDesiredCell(int i_PlayerIndex, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell)
         {
-            Cell legalDesiredCell;
-            Cell legalOriginCell;
+            o_LegalOriginCell = null;
+            o_LegalDestCell = null;
             eSign playerSign = m_Players[i_PlayerIndex].Sign;
             ePlayerType playerType = m_Players[i_PlayerIndex].PlayerType;
 
             if(playerType == ePlayerType.Human)
             {
-                getUserCellMove(i_PlayerIndex, playerSign, ref io_QuitRequest, out legalOriginCell, out legalDesiredCell);
+                getUserCellMove(i_PlayerIndex, playerSign, ref io_QuitRequest, out o_LegalOriginCell, out o_LegalDestCell);
             }
             else
             {
-                m_GameLogic.getComputerCellMove(i_PlayerIndex, playerSign, out legalOriginCell, out legalDesiredCell);    
+                m_GameLogic.getComputerCellMove(i_PlayerIndex, playerSign, out o_LegalOriginCell, out o_LegalDestCell);    
             }
-
-            return legalDesiredCell;
         }
 
         private void getUserCellMove(int i_PlayerIndex, eSign i_PlayerSign, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell)

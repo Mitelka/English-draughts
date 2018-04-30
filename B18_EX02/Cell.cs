@@ -26,7 +26,7 @@
             {
                 if(char.IsUpper(i_Input[0]) && char.IsLower(i_Input[1]))
                 {
-                    o_ParsedCell = new Cell((byte)(i_Input[0] - 'A'), (byte)(i_Input[1] - 'a'), eSign.Empty);
+                    o_ParsedCell = new Cell((byte)(i_Input[1] - 'a'), (byte)(i_Input[0] - 'A'), eSign.Empty);
                     isValidInput = true;
                 }
             }

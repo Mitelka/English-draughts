@@ -22,10 +22,11 @@
 
         public Cell this[Cell i_CurrentCell]
         {
-            get { return m_PlayBoard[i_CurrentCell.CellRow, i_CurrentCell.CellCol]; }
+            get => m_PlayBoard[i_CurrentCell.CellRow, i_CurrentCell.CellCol];
+            set => m_PlayBoard[i_CurrentCell.CellRow, i_CurrentCell.CellCol] = i_CurrentCell;
         }
 
-        public Cell this[byte i_CurrRow, byte i_CurrCol] => m_PlayBoard[i_CurrRow, i_CurrCol];
+        internal Cell this[byte i_CurrRow, byte i_CurrCol] => m_PlayBoard[i_CurrRow, i_CurrCol];
 
         private void setBoard()
         {
