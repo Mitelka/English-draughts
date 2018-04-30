@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace B18_EX02
 {
@@ -7,7 +8,7 @@ namespace B18_EX02
         private Player[] players;
         private byte boardSize;
         private eGameType gameType;
-        private Board gameBoard;
+        public Board gameBoard;
 
         public GameLogic(Player[] i_players, byte i_boardSize, eGameType i_gameType)
         {
@@ -17,37 +18,43 @@ namespace B18_EX02
             initializeBoard(boardSize);
         }
 
-        internal Board Board { get; set; }
+        internal Board GameBoard { get; set; }
 
         private void initializeBoard(byte i_BoardSize)
         {
-            Board = new Board(i_BoardSize);
+            gameBoard = new Board(i_BoardSize);
         }
 
         public void getComputerCellMove(int i_PlayerIndex, eSign playerSign, out Cell o_legalOriginCell, out Cell o_legalDesiredCell)
         {
+            List<Player.PlayerMovelist> potintalMoveList = new List<Player.PlayerMovelist>();
             o_legalDesiredCell = null;
             o_legalOriginCell = null;
 
-            foreach (Cell cell in gameBoard.PlayBoard)
+            foreach (Cell cell in gameBoard.m_PlayBoard)
             {
                 if (cell.CellSign == playerSign)
                 {
-                    Cell potintalCell = null;
-                    potintalCell.CellCol = cell.CellCol++;
-                    potintalCell.CellRow = cell.CellRow++;
+                    foreach (Cell matchCell in gameBoard.m_PlayBoard)
                     {
-                        if (potintalCell.CellSign == eSign.Empty)
+                        if (matchCell.CellSign == eSign.Empty)
                         {
-                            o_legalOriginCell = cell;
-                            o_legalDesiredCell = potintalCell;
+                            if (areCellsLegal(cell, matchCell))
+                            {
+                                potintalMoveList.Add(new Player.PlayerMovelist() { originalCell = cell, desiredCell = matchCell});
+
+                            }
+
                         }
                     }
+                    
+                }                 
 
-         
-                }
             }
-           
+            Random rndNumber = new Random();
+            int playerMove = rndNumber.Next(0, potintalMoveList.Count);
+            o_legalOriginCell = potintalMoveList[playerMove].originalCell;
+            o_legalDesiredCell = potintalMoveList[playerMove].desiredCell;
         }
 
         public bool areCellsLegal(Cell i_OriginCell, Cell i_DestCell)

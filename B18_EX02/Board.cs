@@ -4,7 +4,7 @@
     {
         private readonly byte NumOfRows;
         private readonly byte NumOfCols;
-        private Cell[,] m_PlayBoard;
+        public Cell[,] m_PlayBoard;
 
         public Board(byte i_boardSize)
         {
@@ -18,7 +18,7 @@
         }
 
         public byte BoardSize { get; }
-        public Cell[,] PlayBoard { get; set; }
+        public Cell[,] M_PlayBoard { get; set; } 
 
         public Cell this[Cell i_CurrentCell]
         {

@@ -133,13 +133,13 @@ Please enter the desired game type:
             //TODO: add clear screen
             addColLettersToString(out boardStringBuilder);
             printBoardRowSep(ref boardStringBuilder);
-            for (byte currentRow = 0; currentRow < GameLogic.Board.BoardSize; currentRow++)
+            for (byte currentRow = 0; currentRow < GameLogic.gameBoard.BoardSize; currentRow++)
             {
                 boardStringBuilder.Append($"{(char)('a' + currentRow)}");
                 boardStringBuilder.Append("|");
-                for (byte currentCol = 0; currentCol < GameLogic.Board.BoardSize; currentCol++)
+                for (byte currentCol = 0; currentCol < GameLogic.gameBoard.BoardSize; currentCol++)
                 {
-                    char signToPrint = getSignToPrint(GameLogic.Board[currentRow, currentCol].CellSign);
+                    char signToPrint = getSignToPrint(GameLogic.gameBoard[currentRow, currentCol].CellSign);
                     boardStringBuilder.Append($" {signToPrint} |");
                 }
                 printBoardRowSep(ref boardStringBuilder);
@@ -151,7 +151,7 @@ Please enter the desired game type:
         {
             io_BoardStringBuilder.AppendLine();
             io_BoardStringBuilder.Append(" ");
-            for (byte currentCol = 0; currentCol < GameLogic.Board.BoardSize; currentCol++)
+            for (byte currentCol = 0; currentCol < GameLogic.gameBoard.BoardSize; currentCol++)
             {
                 io_BoardStringBuilder.Append("====");
             }
@@ -189,7 +189,7 @@ Please enter the desired game type:
         {
             o_StringBuilder = new StringBuilder();
             o_StringBuilder.Append(' ', 3);
-            for (byte currentCol = 0; currentCol < GameLogic.Board.BoardSize; currentCol++)
+            for (byte currentCol = 0; currentCol < GameLogic.gameBoard.BoardSize; currentCol++)
             {
                 o_StringBuilder.Append($"{(char)('A' + currentCol)}");
                 o_StringBuilder.Append(' ', 3);
@@ -237,7 +237,7 @@ Please enter the desired game type:
 
         private void resetRound()
         {
-            GameLogic.Board.ResetBoard();
+            GameLogic.gameBoard.ResetBoard();
         }
 
         private Cell getLegalDesiredCell(int i_PlayerIndex, ref bool io_QuitRequest)

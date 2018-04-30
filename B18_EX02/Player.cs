@@ -7,6 +7,13 @@
         private int score;
         private string playerName;
 
+        internal class PlayerMovelist
+        {
+            public Cell originalCell { get; set; }
+            public Cell desiredCell { get; set; }
+
+        }
+
         public Player(ePlayerType i_PlayerType, eSign i_Sign, string i_playerName)
         {
             PlayerType = i_PlayerType;

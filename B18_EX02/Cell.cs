@@ -9,8 +9,8 @@
 
         public Cell(byte i_CellRow, byte i_CellCol, eSign i_CellSign)
         {
-            m_CellRow = i_CellRow;
-            m_CellCol = i_CellCol;
+            m_CellRow = CellRow = i_CellRow;
+            m_CellCol = CellCol = i_CellCol;
             m_CellSign = CellSign = i_CellSign;
         }
 
