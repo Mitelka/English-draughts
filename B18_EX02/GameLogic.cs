@@ -168,7 +168,6 @@ namespace B18_EX02
                 isLegal = false;
             }             
             
-
             return isLegal;
         }
 
