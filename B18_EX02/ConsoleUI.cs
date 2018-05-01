@@ -28,7 +28,6 @@
             }
 
             m_GameLogic = new GameLogic(m_Players, boardSize, gameType);
-            printBoard();
         }
 
         private static string getPlayerName()
@@ -56,7 +55,6 @@
                 nameToBigFlag = false;
                 nameHasSpaceFlag = false;
             }
- 
             return name;
         }
 
@@ -285,9 +283,8 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                     continue;
                 }
 
-                if (!m_IsGameOver)
-                {                  
-                    //Cell.Parse(splitInput[0], out o_LegalOriginCell)
+                if(!m_IsGameOver)
+                {
                     if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.AreCellsLegal(o_LegalOriginCell, o_LegalDestCell, i_PlayerSign))
                     {
                         o_LegalDestCell.CellSign = i_PlayerSign;
@@ -296,7 +293,8 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                     }
                     else
                     {
-                        System.Console.WriteLine("Invalid input, please try again.");   
+                        System.Console.WriteLine("Invalid input, please try again.");
+                        System.Array.Clear(splitInput, 0, 1);
                     }
                 }
                 else
