@@ -8,10 +8,10 @@
         private const byte k_NumOfPlayers = 2;
         private static string s_FirstPlayerName = " ";
         private static string s_SecondPlayerName = " ";
+        private readonly GameLogic m_GameLogic;
         private readonly Player[] m_Players = new Player[k_NumOfPlayers];
         private bool m_IsGameOver = false;
-        private readonly GameLogic m_GameLogic;
-
+        
         public ConsoleUI()
         {
             s_FirstPlayerName = getPlayerName();
@@ -55,6 +55,7 @@
                 nameToBigFlag = false;
                 nameHasSpaceFlag = false;
             }
+
             return name;
         }
 
