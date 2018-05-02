@@ -71,7 +71,6 @@ namespace B18_EX02
             {
                 moveIsLegal = false;
             }
-
             else if (m_GameBoard[i_DestCell].CellSign != eSign.Empty)
             {
                 moveIsLegal = false;
@@ -111,9 +110,15 @@ namespace B18_EX02
             return moveIsLegal;
         }
 
-        public bool IsPossibleToEat(Cell i_TheCellInTheMiddle)
+        public bool IsPossibleToEat(Cell i_TheCellInTheMiddle, Cell i_OriginCell)
         {
-            return true; // Todo
+
+            if (m_GameBoard.m_PlayBoard[i_TheCellInTheMiddle.CellRow, i_TheCellInTheMiddle.CellCol].CellSign != eSign.Empty && m_GameBoard.m_PlayBoard[i_TheCellInTheMiddle.CellRow, i_TheCellInTheMiddle.CellCol].CellSign != m_GameBoard.m_PlayBoard[i_OriginCell.CellRow, i_OriginCell.CellCol].CellSign)
+            {              
+                return true;
+            }
+
+            return false;
         }
 
         public bool CheckingOplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
@@ -129,17 +134,21 @@ namespace B18_EX02
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && i_OriginCell.CellCol == i_DestCell.CellCol - 2)
             {
-                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol + 1]))
+                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol + 1], i_OriginCell))
                 {
                     isLegal = false;
                 }
+
+                m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol + 1].CellSign = eSign.Empty;
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && i_OriginCell.CellCol == i_DestCell.CellCol + 2)
             {
-                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol - 1]))
+                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol - 1], i_OriginCell))
                 {
                     isLegal = false;
                 }
+
+                m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol - 1].CellSign = eSign.Empty;
             }
 
             return isLegal;
@@ -159,19 +168,23 @@ namespace B18_EX02
             {
                 isLegal = false;
             }
-            else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && (i_OriginCell.CellCol == i_DestCell.CellCol - 2))
+            else if (i_OriginCell.CellRow == i_DestCell.CellRow + 2 && (i_OriginCell.CellCol == i_DestCell.CellCol - 2))
             {
-                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1]))
+                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol + 1], i_OriginCell))
                 {
                     isLegal = false;
                 }
+
+                m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol + 1].CellSign = eSign.Empty;
             }
-            else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && (i_OriginCell.CellCol == i_DestCell.CellCol + 2))
+            else if (i_OriginCell.CellRow == i_DestCell.CellRow + 2 && (i_OriginCell.CellCol == i_DestCell.CellCol + 2))
             {
-                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol + 1]))
+                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1], i_OriginCell))
                 {
                     isLegal = false;
                 }
+
+                m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1].CellSign = eSign.Empty;
             }    
             else if (i_OriginCell.CellRow > i_DestCell.CellRow + 2 || (Math.Abs(i_DestCell.CellCol - i_OriginCell.CellCol) > 2))
             {
@@ -190,6 +203,7 @@ namespace B18_EX02
                 m_Players[i_PlayerIndex].NumOfTokens += 3;
                 i_DestCell.CellSign = kingSign;
             }
+
             m_GameBoard[i_OriginCell] = i_OriginCell;
             m_GameBoard[i_DestCell] = i_DestCell;
         }
@@ -206,6 +220,7 @@ namespace B18_EX02
                     winnerIndex = playerIndex;
                 }
             }
+
             return winnerIndex;
         }
 
