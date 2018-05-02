@@ -15,14 +15,24 @@ namespace B18_EX02
             m_Players = i_players;
             m_BoardSize = i_boardSize;
             m_GameType = i_gameType;
-            initializeBoard(m_BoardSize);
+            initializeBoard();
+            initializeTokens();
         }
 
         internal Board GameBoard { get => m_GameBoard; set => m_GameBoard = value; }
 
-        private void initializeBoard(byte i_BoardSize)
+        private void initializeBoard()
         {
-            m_GameBoard = new Board(i_BoardSize);
+            m_GameBoard = new Board(m_BoardSize);
+        }
+
+        private void initializeTokens() 
+        {
+            int numberOfTokens = (m_BoardSize - 2) / 4; 
+            for (int playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
+            {
+                m_Players[playerIndex].NumOfTokens = numberOfTokens;
+            }
         }
 
         public void getComputerCellMove(int i_PlayerIndex, eSign playerSign, out Cell o_legalOriginCell, out Cell o_legalDesiredCell)
@@ -177,7 +187,7 @@ namespace B18_EX02
             if(checkIfKing(i_DestCell, i_PlayerIndex, out kingSign))
             {
                 //TODO: leave this update here? or in some place else
-                m_Players[i_PlayerIndex].Score += 3;
+                m_Players[i_PlayerIndex].NumOfTokens += 3;
                 i_DestCell.CellSign = kingSign;
             }
             m_GameBoard[i_OriginCell] = i_OriginCell;
