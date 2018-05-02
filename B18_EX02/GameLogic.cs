@@ -35,7 +35,7 @@ namespace B18_EX02
             }
         }
 
-        public void getComputerCellMove(int i_PlayerIndex, eSign playerSign, out Cell o_legalOriginCell, out Cell o_legalDesiredCell)
+        public void GetComputerCellMove(int i_PlayerIndex, eSign playerSign, out Cell o_legalOriginCell, out Cell o_legalDesiredCell)
         {
             List<Player.PlayerMovelist> potentialMoveList = new List<Player.PlayerMovelist>();
             o_legalDesiredCell = null;
@@ -111,7 +111,7 @@ namespace B18_EX02
             return moveIsLegal;
         }
 
-        public bool IsPossibleToEat(Cell i_TheCellInTheMidlle)
+        public bool IsPossibleToEat(Cell i_TheCellInTheMiddle)
         {
             return true; // Todo
         }
@@ -194,6 +194,7 @@ namespace B18_EX02
             m_GameBoard[i_DestCell] = i_DestCell;
         }
 
+        //TODO: maybe remove?
         public int GetWinnerIndex()
         {
             int winnerIndex = 0;
@@ -228,6 +229,12 @@ namespace B18_EX02
 
         public bool CheckIfGameOver(Cell i_RequestedCell, int i_PlayerIndex)
         {
+            //check for winning:
+            //1. other player has no more tokens
+            //2. other player has no more options of moving
+            //check for tie:
+            //1. both players don't have more options of moving
+
             return false;
         }
     }

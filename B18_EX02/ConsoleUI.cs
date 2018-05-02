@@ -88,7 +88,7 @@
                 }
                 else
                 {
-                    System.Console.WriteLine("Invalid input. Must by a number, and 6 or 8 or 10 only. Please try again.");
+                    System.Console.WriteLine("Invalid input. Must be a number, and 6 or 8 or 10 only. Please try again.");
                 }
             }
 
@@ -262,7 +262,7 @@ Please enter the desired game type:
             }
             else
             {
-                m_GameLogic.getComputerCellMove(i_PlayerIndex, playerSign, out o_LegalOriginCell, out o_LegalDestCell);    
+                m_GameLogic.GetComputerCellMove(i_PlayerIndex, playerSign, out o_LegalOriginCell, out o_LegalDestCell);    
             }
         }
 
