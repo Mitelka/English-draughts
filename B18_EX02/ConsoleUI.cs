@@ -233,7 +233,7 @@ Please enter the desired game type:
 
                     m_GameLogic.MakeMoveOnBoard(originCell, destCell, playerIndex);
                     printBoard();
-                    // m_IsGameOver = GameLogic.checkIfGameOver(requestedMoveCell, playerIndex);
+                    m_IsGameOver = m_GameLogic.CheckIfGameOver(destCell, playerIndex);
                     if(m_IsGameOver)
                     {
                         showResults(m_GameLogic.GetWinnerIndex());
@@ -241,7 +241,7 @@ Please enter the desired game type:
                 }
             }
 
-            return true;
+            return !quitRequest && checkIfUserContinueToAnotherRound();
         }
 
         private void resetRound()
@@ -324,6 +324,20 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
             strToPrint.Append($"with the score of: {m_Players[i_WinnerIndex].Score}");
 
             System.Console.WriteLine(strToPrint);
+        }
+
+        private bool checkIfUserContinueToAnotherRound()
+        {
+            bool continuePlayingFlag = true;
+
+            System.Console.WriteLine("Press 'Q' to quit or any other key to continue playing");
+            string userInput = System.Console.ReadLine();
+            if(userInput.ToUpper() != "Q")
+            {
+                continuePlayingFlag = false;
+            }
+
+            return continuePlayingFlag;
         }
     }
 }

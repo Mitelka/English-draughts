@@ -173,13 +173,52 @@ namespace B18_EX02
 
         public void MakeMoveOnBoard(Cell i_OriginCell, Cell i_DestCell, int i_PlayerIndex)
         {
+            eSign kingSign;
+            if(checkIfKing(i_DestCell, i_PlayerIndex, out kingSign))
+            {
+                //TODO: leave this update here? or in some place else
+                m_Players[i_PlayerIndex].Score += 3;
+                i_DestCell.CellSign = kingSign;
+            }
             m_GameBoard[i_OriginCell] = i_OriginCell;
             m_GameBoard[i_DestCell] = i_DestCell;
         }
 
         public int GetWinnerIndex()
         {
-            return 1;
+            int winnerIndex = 0;
+            int maxScore = 0;
+            for (int playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
+            {
+                if(m_Players[playerIndex].Score > maxScore)
+                {
+                    winnerIndex = playerIndex;
+                }
+            }
+            return winnerIndex;
+        }
+
+        private bool checkIfKing(Cell i_DestCell, int i_PlayerIndex, out eSign o_Sign)
+        {
+            bool isKingFlag = false;
+            o_Sign = eSign.Empty;
+            if((m_Players[i_PlayerIndex].Sign == eSign.O) && (i_DestCell.CellRow == m_BoardSize - 1))
+            {
+                o_Sign = eSign.U;
+                isKingFlag = true;
+            } 
+            else if((m_Players[i_PlayerIndex].Sign == eSign.X) && (i_DestCell.CellRow == 0))
+            {
+                o_Sign = eSign.K;
+                isKingFlag = true;
+            }
+
+            return isKingFlag;
+        }
+
+        public bool CheckIfGameOver(Cell i_RequestedCell, int i_PlayerIndex)
+        {
+            return false;
         }
     }
 }
