@@ -57,12 +57,12 @@ namespace B18_EX02
         public bool AreCellsLegal(Cell i_OriginCell, Cell i_DestCell, eSign i_PlayerSign)
         {
             bool moveIsLegal = true;
-            //if (i_OriginCell.CellSign != i_PlayerSign)
-            //{
-            // moveIsLegal = false;
-            //}
+            if (m_GameBoard[i_OriginCell].CellSign != i_PlayerSign)
+            {
+                moveIsLegal = false;
+            }
 
-            if (m_GameBoard[i_DestCell].CellSign != eSign.Empty)
+            else if (m_GameBoard[i_DestCell].CellSign != eSign.Empty)
             {
                 moveIsLegal = false;
             }
@@ -175,6 +175,11 @@ namespace B18_EX02
         {
             m_GameBoard[i_OriginCell] = i_OriginCell;
             m_GameBoard[i_DestCell] = i_DestCell;
+        }
+
+        public int GetWinnerIndex()
+        {
+            return 1;
         }
     }
 }

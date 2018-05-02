@@ -233,10 +233,10 @@ Please enter the desired game type:
 
                     m_GameLogic.MakeMoveOnBoard(originCell, destCell, playerIndex);
                     printBoard();
-                    // isGameOver = GameLogic.checkIfGameOver(requestedMoveCell, playerIndex);
+                    // m_IsGameOver = GameLogic.checkIfGameOver(requestedMoveCell, playerIndex);
                     if(m_IsGameOver)
                     {
-                        showResults();
+                        showResults(m_GameLogic.GetWinnerIndex());
                     }
                 }
             }
@@ -317,9 +317,13 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
             return userInput;
         }
 
-        private void showResults()
+        private void showResults(int i_WinnerIndex)
         {
             StringBuilder strToPrint = new StringBuilder();
+            strToPrint.Append($"The winner of this game is: {m_Players[i_WinnerIndex].PlayerName} ({m_Players[i_WinnerIndex].Sign})");
+            strToPrint.Append($"with the score of: {m_Players[i_WinnerIndex].Score}");
+
+            System.Console.WriteLine(strToPrint);
         }
     }
 }
