@@ -41,7 +41,6 @@ namespace B18_EX02
 
         public void GetComputerCellMove(int i_PlayerIndex, eSign playerSign, out Cell o_legalOriginCell, out Cell o_legalDesiredCell, ref bool o_DidEat)
         {
-            List<Player.PlayerMovelist> potentialMoveList = new List<Player.PlayerMovelist>();
             o_legalDesiredCell = null;
             o_legalOriginCell = null;
 
@@ -55,7 +54,7 @@ namespace B18_EX02
                         {
                             if (AreCellsLegal(cell, matchCell, playerSign, ref o_DidEat))
                             {
-                                potentialMoveList.Add(new Player.PlayerMovelist() { originalCell = cell, desiredCell = matchCell });
+                                m_Players[i_PlayerIndex].PlayerPotentialMoveslist.Add(new Player.PlayerMovelist() { originalCell = cell, desiredCell = matchCell });
                             }
                         }
                     }
@@ -63,9 +62,9 @@ namespace B18_EX02
             }
 
             Random rndNumber = new Random();
-            int playerMove = rndNumber.Next(0, potentialMoveList.Count);
-            o_legalOriginCell = potentialMoveList[playerMove].originalCell;
-            o_legalDesiredCell = potentialMoveList[playerMove].desiredCell;
+            int playerMove = rndNumber.Next(0, m_Players[i_PlayerIndex].PlayerPotentialMoveslist.Count);
+            o_legalOriginCell = m_Players[i_PlayerIndex].PlayerPotentialMoveslist[playerMove].originalCell;
+            o_legalDesiredCell = m_Players[i_PlayerIndex].PlayerPotentialMoveslist[playerMove].desiredCell;
         }
 
         public bool AreCellsLegal(Cell i_OriginCell, Cell i_DestCell, eSign i_PlayerSign, ref bool o_DidEatFlag)
@@ -223,8 +222,6 @@ namespace B18_EX02
             o_IsKingFlag = false;
             if(checkIfKing(i_DestCell, i_PlayerIndex, out kingSign))
             {
-                //TODO: leave this update here? or in some place else
-                //m_Players[i_PlayerIndex].NumOfTokens += 3;
                 o_IsKingFlag = true;
                 i_DestCell.CellSign = kingSign;
             }
