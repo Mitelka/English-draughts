@@ -220,18 +220,21 @@ Please enter the desired game type:
         {
             Cell originCell;
             Cell destCell;
+            bool didEat = false;
             bool quitRequest = false;
+            bool isKing;
             while(!m_IsGameOver && !quitRequest)
             {
                 for (byte playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
                 {
-                    getLegalDesiredCell(playerIndex, ref quitRequest, out originCell, out destCell);
+                    getLegalDesiredCell(playerIndex, ref quitRequest, out originCell, out destCell, ref didEat);
                     if(quitRequest)
                     {
                         break;
                     }
 
-                    m_GameLogic.MakeMoveOnBoard(originCell, destCell, playerIndex);
+                    m_GameLogic.MakeMoveOnBoard(originCell, destCell, playerIndex, out isKing);
+                    m_GameLogic.UpdatePlayerTokens(playerIndex, didEat, isKing);
                     printBoard();
                     m_IsGameOver = m_GameLogic.CheckIfGameOver(destCell, playerIndex);
                     if(m_IsGameOver)
@@ -249,7 +252,7 @@ Please enter the desired game type:
             m_GameLogic.GameBoard.ResetBoard();
         }
 
-        private void getLegalDesiredCell(int i_PlayerIndex, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell)
+        private void getLegalDesiredCell(int i_PlayerIndex, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell, ref bool o_Dideat)
         {
             o_LegalOriginCell = null;
             o_LegalDestCell = null;
@@ -258,7 +261,7 @@ Please enter the desired game type:
 
             if(playerType == ePlayerType.Human)
             {
-                getUserCellMove(i_PlayerIndex, playerSign, ref io_QuitRequest, out o_LegalOriginCell, out o_LegalDestCell);
+                getUserCellMove(i_PlayerIndex, playerSign, ref io_QuitRequest, out o_LegalOriginCell, out o_LegalDestCell, ref o_Dideat);
             }
             else
             {
@@ -266,7 +269,7 @@ Please enter the desired game type:
             }
         }
 
-        private void getUserCellMove(int i_PlayerIndex, eSign i_PlayerSign, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell)
+        private void getUserCellMove(int i_PlayerIndex, eSign i_PlayerSign, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell, ref bool o_DidEat)
         {
             bool isLegalMove = false;
             o_LegalOriginCell = null;
@@ -286,7 +289,7 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
 
                 if(!m_IsGameOver)
                 {
-                    if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.AreCellsLegal(o_LegalOriginCell, o_LegalDestCell, i_PlayerSign))
+                    if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.AreCellsLegal(o_LegalOriginCell, o_LegalDestCell, i_PlayerSign, ref o_DidEat))
                     {
                         o_LegalDestCell.CellSign = i_PlayerSign;
                         o_LegalOriginCell.CellSign = eSign.Empty;
