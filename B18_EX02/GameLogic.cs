@@ -32,7 +32,7 @@ namespace B18_EX02
 
         private void initializeTokens()
         {
-            int numberOfTokens = (m_BoardSize - 2) / 4;
+            int numberOfTokens = ((m_BoardSize - 2) / 2) * (m_BoardSize / 2);
             for (int playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
             {
                 m_Players[playerIndex].NumOfTokens = numberOfTokens;

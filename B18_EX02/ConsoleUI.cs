@@ -331,7 +331,7 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
         {
             StringBuilder strToPrint = new StringBuilder();
             strToPrint.Append($"The winner of this game is: {m_Players[i_WinnerIndex].PlayerName} ({m_Players[i_WinnerIndex].Sign})");
-            strToPrint.Append($"with the score of: {m_Players[i_WinnerIndex].Score}");
+            strToPrint.Append($" with the score of: {m_Players[i_WinnerIndex].Score}");
 
             System.Console.WriteLine(strToPrint);
         }
@@ -342,7 +342,7 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
 
             System.Console.WriteLine("Press 'Q' to quit or any other key to continue playing");
             string userInput = System.Console.ReadLine();
-            if(userInput.ToUpper() != "Q")
+            if(userInput.ToUpper() == "Q")
             {
                 continuePlayingFlag = false;
             }
