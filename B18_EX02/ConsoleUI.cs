@@ -234,7 +234,7 @@ Please enter the desired game type:
                         break;
                     }
 
-                    m_GameLogic.MakeMoveOnBoard(originCell, destCell, playerIndex, out isKing);
+                    m_GameLogic.MakeMoveOnBoard(originCell, destCell, playerIndex, out isKing, out didEat);
                     m_GameLogic.UpdatePlayerTokens(playerIndex, didEat, isKing);
                     printBoard();
                     m_IsGameOver = m_GameLogic.CheckIfGameOver(destCell, playerIndex);
@@ -267,7 +267,7 @@ Please enter the desired game type:
             else
             {
                 m_GameLogic.SetComputerMove(i_PlayerIndex, out o_LegalOriginCell, out o_LegalDestCell, ref o_Dideat);
-               
+                setSignAfterMove(playerSign, o_LegalDestCell, o_LegalOriginCell);
             }
         }
 

@@ -38,6 +38,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="ConsoleUI.cs" />
+    <Compile Include="eGameResult.cs" />
     <Compile Include="eGameType.cs" />
     <Compile Include="ePlayerType.cs" />
     <Compile Include="eSign.cs" />

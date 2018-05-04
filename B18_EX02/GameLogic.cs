@@ -93,11 +93,11 @@ namespace B18_EX02
                 switch (m_GameBoard[i_OriginCell].CellSign)
                 {
                     case eSign.O:
-                        moveIsLegal = CheckingOplayerCellsLegal(i_OriginCell, i_DestCell, out o_DidEatFlag);
+                        moveIsLegal = CheckingOplayerCellsLegal(i_OriginCell, i_DestCell);
                         break;
 
                     case eSign.X:
-                        moveIsLegal = CheckingXplayerCellsLegal(i_OriginCell, i_DestCell, out o_DidEatFlag);
+                        moveIsLegal = CheckingXplayerCellsLegal(i_OriginCell, i_DestCell);
                         break;
                     case eSign.K:
                         // TODO
@@ -122,10 +122,9 @@ namespace B18_EX02
             return false;
         }
 
-        public bool CheckingOplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell, out bool o_DidEat)
+        public bool CheckingOplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
         {
             bool isLegal = true;
-            o_DidEat = false;
             if (i_OriginCell.CellRow >= i_DestCell.CellRow || i_OriginCell.CellCol == i_DestCell.CellCol)
             {
                 isLegal = false;
@@ -140,11 +139,6 @@ namespace B18_EX02
                 {
                     isLegal = false;
                 }
-                else
-                {
-                    m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol + 1].CellSign = eSign.Empty;
-                    o_DidEat = true;
-                }
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && i_OriginCell.CellCol == i_DestCell.CellCol + 2)
             {
@@ -152,22 +146,15 @@ namespace B18_EX02
                 {
                     isLegal = false;
                 }
-                else
-                {
-                    m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol - 1].CellSign = eSign.Empty;
-                    o_DidEat = true;
-                }
+             
             }
 
             return isLegal;
         }
 
-        public bool CheckingXplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell, out bool o_DidEat)
+        public bool CheckingXplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
         {
             bool isLegal = true;
-            int checkingColFowardOrBack;
-            checkingColFowardOrBack = i_OriginCell.CellCol - i_DestCell.CellCol;
-            o_DidEat = false;
 
             if (i_OriginCell.CellRow <= i_DestCell.CellRow || i_OriginCell.CellCol == i_DestCell.CellCol)
             {
@@ -183,11 +170,7 @@ namespace B18_EX02
                 {
                     isLegal = false;
                 }
-                else
-                {
-                    m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol + 1].CellSign = eSign.Empty;
-                    o_DidEat = true;
-                }
+           
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow + 2 && (i_OriginCell.CellCol == i_DestCell.CellCol + 2))
             {
@@ -195,11 +178,7 @@ namespace B18_EX02
                 {
                     isLegal = false;
                 }
-                else
-                {
-                    m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1].CellSign = eSign.Empty;
-                    o_DidEat = true;
-                }
+      
             }
             else if (i_OriginCell.CellRow > i_DestCell.CellRow + 2 || (Math.Abs(i_DestCell.CellCol - i_OriginCell.CellCol) > 2))
             {
@@ -209,8 +188,9 @@ namespace B18_EX02
             return isLegal;
         }
 
-        public void MakeMoveOnBoard(Cell i_OriginCell, Cell i_DestCell, int i_PlayerIndex, out bool o_IsKingFlag)
+        public void MakeMoveOnBoard(Cell i_OriginCell, Cell i_DestCell, int i_PlayerIndex, out bool o_IsKingFlag, out bool o_DidEat)
         {
+            o_DidEat = false;
             eSign kingSign;
             o_IsKingFlag = false;
             if (checkIfKing(i_DestCell, i_PlayerIndex, out kingSign))
@@ -219,6 +199,20 @@ namespace B18_EX02
                 i_DestCell.CellSign = kingSign;
             }
 
+            if (Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow) == 2)
+            {
+                if (m_Players[i_PlayerIndex].Sign == eSign.O)
+                {
+                    m_GameBoard[(byte)(Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow) + 1), (byte)Math.Abs(i_OriginCell.CellCol - i_DestCell.CellCol)].CellSign = eSign.Empty;
+                }
+                else if (m_Players[i_PlayerIndex].Sign == eSign.X)
+                {
+                    m_GameBoard[(byte)Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow), (byte)(Math.Abs(i_OriginCell.CellCol - i_DestCell.CellCol) -1) ].CellSign = eSign.Empty;
+                }
+
+                o_DidEat = true;
+            }
+           
             m_GameBoard[i_OriginCell] = i_OriginCell;
             m_GameBoard[i_DestCell] = i_DestCell;
         }
