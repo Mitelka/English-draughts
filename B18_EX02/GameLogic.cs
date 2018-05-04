@@ -30,20 +30,18 @@ namespace B18_EX02
             m_GameBoard = new Board(m_BoardSize);
         }
 
-        private void initializeTokens() 
+        private void initializeTokens()
         {
-            int numberOfTokens = (m_BoardSize - 2) / 4; 
+            int numberOfTokens = (m_BoardSize - 2) / 4;
             for (int playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
             {
                 m_Players[playerIndex].NumOfTokens = numberOfTokens;
             }
         }
 
-        public void GetComputerCellMove(int i_PlayerIndex, eSign playerSign, out Cell o_legalOriginCell, out Cell o_legalDesiredCell, ref bool o_DidEat)
+        public void GetAllOptionalCellMove(int i_PlayerIndex, eSign playerSign, ref bool o_DidEat)
         {
-            o_legalDesiredCell = null;
-            o_legalOriginCell = null;
-
+            m_Players[i_PlayerIndex].PlayerPotentialMoveslist.Clear();
             foreach (Cell cell in m_GameBoard.m_PlayBoard)
             {
                 if (cell.CellSign == playerSign)
@@ -58,13 +56,8 @@ namespace B18_EX02
                             }
                         }
                     }
-                }                 
+                }
             }
-
-            Random rndNumber = new Random();
-            int playerMove = rndNumber.Next(0, m_Players[i_PlayerIndex].PlayerPotentialMoveslist.Count);
-            o_legalOriginCell = m_Players[i_PlayerIndex].PlayerPotentialMoveslist[playerMove].originalCell;
-            o_legalDesiredCell = m_Players[i_PlayerIndex].PlayerPotentialMoveslist[playerMove].desiredCell;
         }
 
         public bool AreCellsLegal(Cell i_OriginCell, Cell i_DestCell, eSign i_PlayerSign, ref bool o_DidEatFlag)
@@ -122,7 +115,7 @@ namespace B18_EX02
         {
 
             if (m_GameBoard[i_TheCellInTheMiddle].CellSign != eSign.Empty && m_GameBoard[i_TheCellInTheMiddle].CellSign != m_GameBoard[i_OriginCell].CellSign)
-            {              
+            {
                 return true;
             }
 
@@ -137,7 +130,7 @@ namespace B18_EX02
             {
                 isLegal = false;
             }
-            else if (i_OriginCell.CellRow < i_DestCell.CellRow - 2 || (Math.Abs(i_DestCell.CellCol - i_OriginCell.CellCol) > 2 ))
+            else if (i_OriginCell.CellRow < i_DestCell.CellRow - 2 || (Math.Abs(i_DestCell.CellCol - i_OriginCell.CellCol) > 2))
             {
                 isLegal = false;
             }
@@ -207,12 +200,12 @@ namespace B18_EX02
                     m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1].CellSign = eSign.Empty;
                     o_DidEat = true;
                 }
-            }    
+            }
             else if (i_OriginCell.CellRow > i_DestCell.CellRow + 2 || (Math.Abs(i_DestCell.CellCol - i_OriginCell.CellCol) > 2))
             {
                 isLegal = false;
-            }             
-            
+            }
+
             return isLegal;
         }
 
@@ -220,7 +213,7 @@ namespace B18_EX02
         {
             eSign kingSign;
             o_IsKingFlag = false;
-            if(checkIfKing(i_DestCell, i_PlayerIndex, out kingSign))
+            if (checkIfKing(i_DestCell, i_PlayerIndex, out kingSign))
             {
                 o_IsKingFlag = true;
                 i_DestCell.CellSign = kingSign;
@@ -232,18 +225,18 @@ namespace B18_EX02
 
         public void UpdatePlayerTokens(int i_PlayerIndex, bool i_DidEat, bool i_IsKing)
         {
-            if(i_DidEat)
+            if (i_DidEat)
             {
                 m_Players[i_PlayerIndex].NumOfTokens += 1;
-                m_Players[getOtherPlayerIndex(i_PlayerIndex)].NumOfTokens -= 1;
-            } 
+                m_Players[GetOtherPlayerIndex(i_PlayerIndex)].NumOfTokens -= 1;
+            }
             if (i_IsKing)
             {
                 m_Players[i_PlayerIndex].NumOfTokens += 4;
             }
         }
 
-        private int getOtherPlayerIndex(int i_CurrPlayerIndex) 
+        public int GetOtherPlayerIndex(int i_CurrPlayerIndex)
         {
             return (i_CurrPlayerIndex + 1) % (m_Players.Length);
         }
@@ -255,7 +248,7 @@ namespace B18_EX02
             int maxScore = 0;
             for (int playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
             {
-                if(m_Players[playerIndex].Score > maxScore)
+                if (m_Players[playerIndex].Score > maxScore)
                 {
                     winnerIndex = playerIndex;
                 }
@@ -268,12 +261,12 @@ namespace B18_EX02
         {
             bool isKingFlag = false;
             o_Sign = eSign.Empty;
-            if((m_Players[i_PlayerIndex].Sign == eSign.O) && (i_DestCell.CellRow == m_BoardSize - 1))
+            if ((m_Players[i_PlayerIndex].Sign == eSign.O) && (i_DestCell.CellRow == m_BoardSize - 1))
             {
                 o_Sign = eSign.U;
                 isKingFlag = true;
-            } 
-            else if((m_Players[i_PlayerIndex].Sign == eSign.X) && (i_DestCell.CellRow == 0))
+            }
+            else if ((m_Players[i_PlayerIndex].Sign == eSign.X) && (i_DestCell.CellRow == 0))
             {
                 o_Sign = eSign.K;
                 isKingFlag = true;
@@ -284,25 +277,35 @@ namespace B18_EX02
 
         public bool CheckIfGameOver(Cell i_RequestedCell, int i_PlayerIndex)
         {
+            bool didEat = false;
             bool gameOverFlag = false;
-            int otherPlayerIndex = getOtherPlayerIndex(i_PlayerIndex);
-            if(m_Players[otherPlayerIndex].NumOfTokens == 0)
+            int otherPlayerIndex = GetOtherPlayerIndex(i_PlayerIndex);
+            GetAllOptionalCellMove(otherPlayerIndex, m_Players[otherPlayerIndex].Sign, ref didEat);
+            if (m_Players[otherPlayerIndex].NumOfTokens == 0)
             {
                 gameOverFlag = true;
                 m_GameResult = eGameResult.WINNER;
             }
-            else if((m_Players[otherPlayerIndex].PlayerPotentialMoveslist.Count == 0) && (m_Players[i_PlayerIndex].PlayerPotentialMoveslist.Count == 0))
+            else if ((m_Players[otherPlayerIndex].PlayerPotentialMoveslist.Count == 0) && (m_Players[i_PlayerIndex].PlayerPotentialMoveslist.Count == 0))
             {
                 gameOverFlag = true;
                 m_GameResult = eGameResult.TIE;
             }
-            else if((m_Players[otherPlayerIndex].PlayerPotentialMoveslist.Count == 0))
+            else if ((m_Players[otherPlayerIndex].PlayerPotentialMoveslist.Count == 0))
             {
                 gameOverFlag = true;
                 m_GameResult = eGameResult.WINNER;
             }
 
             return gameOverFlag;
+        }
+
+        public void SetComputerMove(int i_PlayerIndex, out Cell o_legalOriginCell, out Cell o_legalDesiredCell ,ref bool o_Dideat)
+        {
+            Random rndNumber = new Random();
+            int playerMove = rndNumber.Next(0, m_Players[i_PlayerIndex].PlayerPotentialMoveslist.Count);
+            o_legalOriginCell = m_Players[i_PlayerIndex].PlayerPotentialMoveslist[playerMove].originalCell;
+            o_legalDesiredCell = m_Players[i_PlayerIndex].PlayerPotentialMoveslist[playerMove].desiredCell;
         }
     }
 }

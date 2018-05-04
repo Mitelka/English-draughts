@@ -227,6 +227,7 @@ Please enter the desired game type:
             {
                 for (byte playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
                 {
+                    m_GameLogic.GetAllOptionalCellMove(playerIndex, m_Players[playerIndex].Sign, ref didEat);
                     getLegalDesiredCell(playerIndex, ref quitRequest, out originCell, out destCell, ref didEat);
                     if(quitRequest)
                     {
@@ -265,7 +266,8 @@ Please enter the desired game type:
             }
             else
             {
-                m_GameLogic.GetComputerCellMove(i_PlayerIndex, playerSign, out o_LegalOriginCell, out o_LegalDestCell, ref o_Dideat);    
+                m_GameLogic.SetComputerMove(i_PlayerIndex, out o_LegalOriginCell, out o_LegalDestCell, ref o_Dideat);
+               
             }
         }
 
@@ -291,8 +293,7 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                 {
                     if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.AreCellsLegal(o_LegalOriginCell, o_LegalDestCell, i_PlayerSign, ref o_DidEat))
                     {
-                        o_LegalDestCell.CellSign = i_PlayerSign;
-                        o_LegalOriginCell.CellSign = eSign.Empty;
+                        setSignAfterMove(i_PlayerSign, o_LegalDestCell, o_LegalOriginCell);
                         isLegalMove = true;
                     }
                     else
@@ -341,6 +342,11 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
             }
 
             return continuePlayingFlag;
+        }
+        private void setSignAfterMove(eSign i_PlayerSign, Cell LegalDestCell, Cell LegalOriginCell)
+        {
+            LegalDestCell.CellSign = i_PlayerSign;
+            LegalOriginCell.CellSign = eSign.Empty;
         }
     }
 }

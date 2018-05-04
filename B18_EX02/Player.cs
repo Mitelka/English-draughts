@@ -17,7 +17,7 @@ namespace B18_EX02
             public Cell desiredCell { get; set; }
         }
 
-        private List<PlayerMovelist> m_PlayerMovelist;
+        private List<PlayerMovelist> m_PlayerMovelist = new List<PlayerMovelist>();
 
         public Player(ePlayerType i_PlayerType, eSign i_Sign, string i_PlayerName)
         {
