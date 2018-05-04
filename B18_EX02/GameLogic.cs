@@ -67,7 +67,7 @@ namespace B18_EX02
         public bool AreCellsLegal(Cell i_OriginCell, Cell i_DestCell, eSign i_PlayerSign)
         {
             bool moveIsLegal = true;
-            if (m_GameBoard[i_OriginCell].CellSign != i_PlayerSign)
+            if (m_GameBoard[i_OriginCell].CellSign != i_PlayerSign || m_GameBoard[i_DestCell].CellSign != eSign.Empty)
             {
                 moveIsLegal = false;
             }
@@ -139,7 +139,10 @@ namespace B18_EX02
                     isLegal = false;
                 }
 
-                m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol + 1].CellSign = eSign.Empty;
+                else
+                {
+                    m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol + 1].CellSign = eSign.Empty;
+                }
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && i_OriginCell.CellCol == i_DestCell.CellCol + 2)
             {
@@ -148,7 +151,10 @@ namespace B18_EX02
                     isLegal = false;
                 }
 
-                m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol - 1].CellSign = eSign.Empty;
+                else
+                {
+                    m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol - 1].CellSign = eSign.Empty;
+                }
             }
 
             return isLegal;
@@ -175,7 +181,10 @@ namespace B18_EX02
                     isLegal = false;
                 }
 
-                m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol + 1].CellSign = eSign.Empty;
+                else
+                {
+                    m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol + 1].CellSign = eSign.Empty;
+                }
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow + 2 && (i_OriginCell.CellCol == i_DestCell.CellCol + 2))
             {
@@ -184,8 +193,11 @@ namespace B18_EX02
                     isLegal = false;
                 }
 
-                m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1].CellSign = eSign.Empty;
-            }    
+                else
+                {
+                    m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1].CellSign = eSign.Empty;
+                }
+            }
             else if (i_OriginCell.CellRow > i_DestCell.CellRow + 2 || (Math.Abs(i_DestCell.CellCol - i_OriginCell.CellCol) > 2))
             {
                 isLegal = false;
