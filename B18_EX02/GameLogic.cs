@@ -8,7 +8,9 @@ namespace B18_EX02
         private Player[] m_Players;
         private byte m_BoardSize;
         private eGameType m_GameType;
+        private eGameResult m_GameResult;
         public Board m_GameBoard;
+
 
         public GameLogic(Player[] i_players, byte i_boardSize, eGameType i_gameType)
         {
@@ -20,6 +22,8 @@ namespace B18_EX02
         }
 
         internal Board GameBoard { get => m_GameBoard; set => m_GameBoard = value; }
+
+        public eGameResult GameResult { get => m_GameResult; }
 
         private void initializeBoard()
         {
@@ -283,13 +287,25 @@ namespace B18_EX02
 
         public bool CheckIfGameOver(Cell i_RequestedCell, int i_PlayerIndex)
         {
-            //check for winning:
-            //1. other player has no more tokens
-            //2. other player has no more options of moving
-            //check for tie:
-            //1. both players don't have more options of moving
+            bool gameOverFlag = false;
+            int otherPlayerIndex = getOtherPlayerIndex(i_PlayerIndex);
+            if(m_Players[otherPlayerIndex].NumOfTokens == 0)
+            {
+                gameOverFlag = true;
+                m_GameResult = eGameResult.WINNER;
+            }
+            else if((m_Players[otherPlayerIndex].PlayerPotentialMoveslist.Count == 0) && (m_Players[i_PlayerIndex].PlayerPotentialMoveslist.Count == 0))
+            {
+                gameOverFlag = true;
+                m_GameResult = eGameResult.TIE;
+            }
+            else if((m_Players[otherPlayerIndex].PlayerPotentialMoveslist.Count == 0))
+            {
+                gameOverFlag = true;
+                m_GameResult = eGameResult.WINNER;
+            }
 
-            return false;
+            return gameOverFlag;
         }
     }
 }

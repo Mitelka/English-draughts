@@ -1,4 +1,6 @@
-﻿namespace B18_EX02
+﻿using System.Collections.Generic;
+
+namespace B18_EX02
 {
     internal class Player
     {
@@ -14,6 +16,8 @@
 
             public Cell desiredCell { get; set; }
         }
+
+        private List<PlayerMovelist> m_PlayerMovelist;
 
         public Player(ePlayerType i_PlayerType, eSign i_Sign, string i_PlayerName)
         {
@@ -32,5 +36,7 @@
         public string PlayerName { get => m_PlayerName; set => m_PlayerName = value; }
 
         public int NumOfTokens { get => m_NumOfTokens; set => m_NumOfTokens = value; }
+
+        public List<PlayerMovelist> PlayerPotentialMoveslist { get => m_PlayerMovelist; set => m_PlayerMovelist = value; }
     }
 }
