@@ -35,7 +35,7 @@ namespace B18_EX02
             }
         }
 
-        public void GetComputerCellMove(int i_PlayerIndex, eSign playerSign, out Cell o_legalOriginCell, out Cell o_legalDesiredCell)
+        public void GetComputerCellMove(int i_PlayerIndex, eSign playerSign, out Cell o_legalOriginCell, out Cell o_legalDesiredCell, ref bool o_DidEat)
         {
             List<Player.PlayerMovelist> potentialMoveList = new List<Player.PlayerMovelist>();
             o_legalDesiredCell = null;
@@ -49,7 +49,7 @@ namespace B18_EX02
                     {
                         if (matchCell.CellSign == eSign.Empty)
                         {
-                            if (AreCellsLegal(cell, matchCell, playerSign))
+                            if (AreCellsLegal(cell, matchCell, playerSign, ref o_DidEat))
                             {
                                 potentialMoveList.Add(new Player.PlayerMovelist() { originalCell = cell, desiredCell = matchCell });
                             }

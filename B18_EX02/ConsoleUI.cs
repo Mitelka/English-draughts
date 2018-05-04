@@ -265,7 +265,7 @@ Please enter the desired game type:
             }
             else
             {
-                m_GameLogic.GetComputerCellMove(i_PlayerIndex, playerSign, out o_LegalOriginCell, out o_LegalDestCell);    
+                m_GameLogic.GetComputerCellMove(i_PlayerIndex, playerSign, out o_LegalOriginCell, out o_LegalDestCell, ref o_Dideat);    
             }
         }
 
