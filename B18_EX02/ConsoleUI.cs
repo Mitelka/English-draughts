@@ -8,6 +8,7 @@
         private const byte k_NumOfPlayers = 2;
         private static string s_FirstPlayerName = " ";
         private static string s_SecondPlayerName = " ";
+        private static string s_PrevStep = "";
         private readonly GameLogic m_GameLogic;
         private readonly Player[] m_Players = new Player[k_NumOfPlayers];
         private bool m_IsGameOver = false;
@@ -276,8 +277,12 @@ Please enter the desired game type:
             bool isLegalMove = false;
             o_LegalOriginCell = null;
             o_LegalDestCell = null;
-            // TODO: in the example the previous step is written, should we do it as well?
-            System.Console.WriteLine($@"{m_Players[i_PlayerIndex].PlayerName}'s ({m_Players[i_PlayerIndex].Sign}) turn:
+            int otherPlayerIndex = m_GameLogic.GetOtherPlayerIndex(i_PlayerIndex);
+            if (s_PrevStep != "")
+            {
+                System.Console.WriteLine($@"{m_Players[otherPlayerIndex].PlayerName}'s move was ({m_Players[otherPlayerIndex].Sign}): {s_PrevStep}");
+            }
+            System.Console.WriteLine($@"{m_Players[i_PlayerIndex].PlayerName}'s Turn ({m_Players[i_PlayerIndex].Sign}):
 Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
 
             while(!isLegalMove)
@@ -294,6 +299,7 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                     if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.AreCellsLegal(o_LegalOriginCell, o_LegalDestCell, i_PlayerSign, ref o_DidEat))
                     {
                         setSignAfterMove(i_PlayerSign, o_LegalDestCell, o_LegalOriginCell);
+                        s_PrevStep = userInput;
                         isLegalMove = true;
                     }
                     else
