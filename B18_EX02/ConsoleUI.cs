@@ -224,11 +224,12 @@ Please enter the desired game type:
             bool didEat = false;
             bool quitRequest = false;
             bool isKing;
-            while(!m_IsGameOver && !quitRequest)
+
+            m_GameLogic.GetAllOptionalCellMove(0, m_Players[0].Sign, ref didEat);
+            while (!m_IsGameOver && !quitRequest)             
             {
                 for (byte playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
-                {
-                    m_GameLogic.GetAllOptionalCellMove(playerIndex, m_Players[playerIndex].Sign, ref didEat);
+                {                   
                     getLegalDesiredCell(playerIndex, ref quitRequest, out originCell, out destCell, ref didEat);
                     if(quitRequest)
                     {
@@ -298,9 +299,12 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                 {
                     if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.AreCellsLegal(o_LegalOriginCell, o_LegalDestCell, i_PlayerSign, ref o_DidEat))
                     {
-                        setSignAfterMove(i_PlayerSign, o_LegalDestCell, o_LegalOriginCell);
-                        s_PrevStep = userInput;
-                        isLegalMove = true;
+                        if (m_GameLogic.CheakIfCellsInThePossibaleList(o_LegalOriginCell, o_LegalDestCell, i_PlayerIndex))
+                        {
+                            setSignAfterMove(i_PlayerSign, o_LegalDestCell, o_LegalOriginCell);
+                            s_PrevStep = userInput;
+                            isLegalMove = true;
+                        }
                     }
                     else
                     {
