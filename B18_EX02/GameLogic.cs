@@ -327,12 +327,13 @@ namespace B18_EX02
             o_legalOriginCell = m_Players[i_PlayerIndex].PlayerPotentialMoveslist[playerMove].originalCell;
             o_legalDesiredCell = m_Players[i_PlayerIndex].PlayerPotentialMoveslist[playerMove].desiredCell;
         }
-        public bool CheakIfCellsInThePossibaleList(Cell i_OriginCell, Cell i_DestCell, int i_PlayerIndex)
+
+        public bool CheckIfCellsInThePossibleList(Cell i_OriginCell, Cell i_DestCell, int i_PlayerIndex)
         {
             bool isLegal = false;
-            foreach (Player.PlayerMovelist cheakingCells in m_Players[i_PlayerIndex].PlayerPotentialMoveslist)
+            foreach (Player.PlayerMovelist checkingCells in m_Players[i_PlayerIndex].PlayerPotentialMoveslist)
             {
-                if (cheakingCells.originalCell.CellCol == i_OriginCell.CellCol && cheakingCells.originalCell.CellRow == i_OriginCell.CellRow)
+                if (checkingCells.originalCell.CellCol == i_OriginCell.CellCol && checkingCells.originalCell.CellRow == i_OriginCell.CellRow)
                 {
                     isLegal = true;
                     break;

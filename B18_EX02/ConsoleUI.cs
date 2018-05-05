@@ -299,7 +299,7 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                 {
                     if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.AreCellsLegal(o_LegalOriginCell, o_LegalDestCell, i_PlayerSign, ref o_DidEat))
                     {
-                        if (m_GameLogic.CheakIfCellsInThePossibaleList(o_LegalOriginCell, o_LegalDestCell, i_PlayerIndex))
+                        if (m_GameLogic.CheckIfCellsInThePossibleList(o_LegalOriginCell, o_LegalDestCell, i_PlayerIndex))
                         {
                             setSignAfterMove(i_PlayerSign, o_LegalDestCell, o_LegalOriginCell);
                             s_PrevStep = userInput;
