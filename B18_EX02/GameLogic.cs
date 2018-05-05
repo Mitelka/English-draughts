@@ -235,8 +235,14 @@ namespace B18_EX02
             return (i_CurrPlayerIndex + 1) % (m_Players.Length);
         }
 
+        public void UpdateWinnerScore(int i_WinnerPlayerIdx)
+        {
+            int otherPlayerIdx = GetOtherPlayerIndex(i_WinnerPlayerIdx);
+            m_Players[i_WinnerPlayerIdx].Score = m_Players[i_WinnerPlayerIdx].NumOfTokens - m_Players[otherPlayerIdx].NumOfTokens;
+        }
+
         //TODO: maybe remove?
-        public int GetWinnerIndex()
+        public int GetWinnerOfAllGamesIndex()
         {
             int winnerIndex = 0;
             int maxScore = 0;

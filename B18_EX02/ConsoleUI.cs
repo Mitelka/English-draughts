@@ -241,7 +241,7 @@ Please enter the desired game type:
                     m_IsGameOver = m_GameLogic.CheckIfGameOver(destCell, playerIndex);
                     if(m_IsGameOver)
                     {
-                        showResults(m_GameLogic.GetWinnerIndex());
+                        showResults(m_GameLogic.GetWinnerOfAllGamesIndex());
                     }
                 }
             }
@@ -349,6 +349,7 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
 
             return continuePlayingFlag;
         }
+
         private void setSignAfterMove(eSign i_PlayerSign, Cell LegalDestCell, Cell LegalOriginCell)
         {
             LegalDestCell.CellSign = i_PlayerSign;
