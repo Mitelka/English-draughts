@@ -3,7 +3,6 @@
     public enum eGameResult
     {
         TIE = 1,
-        WINNER = 2,
-        QUIT = 3
+        WINNER = 2
     }
 }

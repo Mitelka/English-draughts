@@ -259,7 +259,6 @@ namespace B18_EX02
             m_Players[i_WinnerPlayerIdx].Score = m_Players[i_WinnerPlayerIdx].NumOfTokens - m_Players[otherPlayerIdx].NumOfTokens;
         }
 
-        //TODO: maybe remove?
         public int GetWinnerOfAllGamesIndex()
         {
             int winnerIndex = 0;
@@ -341,6 +340,23 @@ namespace B18_EX02
             }
 
             return isLegal;
+        }
+
+        public bool IsPlayerEligToQuit(int i_PlayerIndex)
+        {
+            bool isEligToQuit = false;
+            int otherPlayerIdx = GetOtherPlayerIndex(i_PlayerIndex);
+            int playerCurrScore;
+            int otherPlayerCurrScore;
+
+            playerCurrScore = m_Players[i_PlayerIndex].Score + m_Players[i_PlayerIndex].NumOfTokens;
+            otherPlayerCurrScore = m_Players[otherPlayerIdx].Score + m_Players[otherPlayerIdx].NumOfTokens;
+            if(playerCurrScore < otherPlayerCurrScore)
+            {
+                isEligToQuit = true;
+            }
+
+            return isEligToQuit;
         }
     }
 }

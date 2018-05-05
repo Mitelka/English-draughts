@@ -233,6 +233,8 @@ Please enter the desired game type:
                     getLegalDesiredCell(playerIndex, ref quitRequest, out originCell, out destCell, ref didEat);
                     if(quitRequest)
                     {
+                        m_GameLogic.UpdateWinnerScore(m_GameLogic.GetOtherPlayerIndex(playerIndex));
+                        showResults(m_GameLogic.GetWinnerOfAllGamesIndex());
                         break;
                     }
 
@@ -242,6 +244,10 @@ Please enter the desired game type:
                     m_IsGameOver = m_GameLogic.CheckIfGameOver(destCell, playerIndex);
                     if(m_IsGameOver)
                     {
+                        if(m_GameLogic.GameResult == eGameResult.WINNER)
+                        {
+                            m_GameLogic.UpdateWinnerScore(playerIndex);
+                        }
                         showResults(m_GameLogic.GetWinnerOfAllGamesIndex());
                     }
                 }
@@ -290,6 +296,17 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
             {
                 string userInput = getUserInput(ref io_QuitRequest);
                 string[] splitInput = userInput.Split('>');
+                if (io_QuitRequest)
+                {
+                    if (m_GameLogic.IsPlayerEligToQuit(i_PlayerIndex))
+                    {
+                        System.Console.WriteLine("You chose to quite.");
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("Invalid input, please try again.");
+                    }
+                }
                 if(splitInput.Length != 2)
                 {
                     continue;
@@ -324,7 +341,6 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
             string userInput = System.Console.ReadLine();
             if(userInput.ToUpper() == "Q")
             {
-                System.Console.WriteLine("You chose to quite.");
                 io_QuitRequest = true;
             }
 
