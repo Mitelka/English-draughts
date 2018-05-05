@@ -208,6 +208,8 @@ namespace B18_EX02
 
         public void MakeMoveOnBoard(Cell i_OriginCell, Cell i_DestCell, int i_PlayerIndex, out bool o_IsKingFlag, out bool o_DidEat)
         {
+            int middleRow;
+            int middleCol;
             o_DidEat = false;
             eSign kingSign;
             o_IsKingFlag = false;
@@ -219,13 +221,11 @@ namespace B18_EX02
 
             if (Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow) == 2)
             {
-                if (m_Players[i_PlayerIndex].Sign == eSign.O)
+                middleRow = (i_OriginCell.CellRow + i_DestCell.CellRow) / 2;
+                middleCol = (i_OriginCell.CellCol + i_DestCell.CellCol) / 2;
+                if (m_Players[i_PlayerIndex].Sign == eSign.O || m_Players[i_PlayerIndex].Sign == eSign.X)
                 {
-                    m_GameBoard[(byte)Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow), (byte)Math.Abs(i_OriginCell.CellCol - i_DestCell.CellCol + 1)].CellSign = eSign.Empty;
-                }
-                else if (m_Players[i_PlayerIndex].Sign == eSign.X)
-                {
-                    m_GameBoard[(byte)Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow + 1), (byte)Math.Abs(i_OriginCell.CellCol - i_DestCell.CellCol) ].CellSign = eSign.Empty;
+                    m_GameBoard[(byte)middleRow, (byte)middleCol].CellSign = eSign.Empty;
                 }
 
                 o_DidEat = true;
