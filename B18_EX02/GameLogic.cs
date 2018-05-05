@@ -203,11 +203,11 @@ namespace B18_EX02
             {
                 if (m_Players[i_PlayerIndex].Sign == eSign.O)
                 {
-                    m_GameBoard[(byte)(Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow) + 1), (byte)Math.Abs(i_OriginCell.CellCol - i_DestCell.CellCol)].CellSign = eSign.Empty;
+                    m_GameBoard[(byte)Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow), (byte)Math.Abs(i_OriginCell.CellCol - i_DestCell.CellCol + 1)].CellSign = eSign.Empty;
                 }
                 else if (m_Players[i_PlayerIndex].Sign == eSign.X)
                 {
-                    m_GameBoard[(byte)Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow), (byte)(Math.Abs(i_OriginCell.CellCol - i_DestCell.CellCol) -1) ].CellSign = eSign.Empty;
+                    m_GameBoard[(byte)Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow + 1), (byte)Math.Abs(i_OriginCell.CellCol - i_DestCell.CellCol) ].CellSign = eSign.Empty;
                 }
 
                 o_DidEat = true;
