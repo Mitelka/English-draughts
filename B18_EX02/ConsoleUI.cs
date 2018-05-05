@@ -8,7 +8,7 @@
         private const byte k_NumOfPlayers = 2;
         private static string s_FirstPlayerName = " ";
         private static string s_SecondPlayerName = " ";
-        private static string s_PrevStep = "";
+        private static string s_PrevStep = string.Empty;
         private readonly GameLogic m_GameLogic;
         private readonly Player[] m_Players = new Player[k_NumOfPlayers];
         private bool m_IsGameOver = false;
@@ -131,7 +131,7 @@ Please enter the desired game type:
         private void printBoard()
         {
             StringBuilder boardStringBuilder;
-            //  TODO: add clear screen
+            Ex02.ConsoleUtils.Screen.Clear();
             addColLettersToString(out boardStringBuilder);
             printBoardRowSep(ref boardStringBuilder);
             for (byte currentRow = 0; currentRow < m_GameLogic.GameBoard.BoardSize; currentRow++)
@@ -248,6 +248,7 @@ Please enter the desired game type:
                         {
                             m_GameLogic.UpdateWinnerScore(playerIndex);
                         }
+
                         showResults(m_GameLogic.GetWinnerOfAllGamesIndex());
                     }
                 }
@@ -285,10 +286,11 @@ Please enter the desired game type:
             o_LegalOriginCell = null;
             o_LegalDestCell = null;
             int otherPlayerIndex = m_GameLogic.GetOtherPlayerIndex(i_PlayerIndex);
-            if (s_PrevStep != "")
+            if (s_PrevStep != string.Empty)
             {
                 System.Console.WriteLine($@"{m_Players[otherPlayerIndex].PlayerName}'s move was ({m_Players[otherPlayerIndex].Sign}): {s_PrevStep}");
             }
+
             System.Console.WriteLine($@"{m_Players[i_PlayerIndex].PlayerName}'s Turn ({m_Players[i_PlayerIndex].Sign}):
 Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
 
@@ -307,7 +309,8 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                         System.Console.WriteLine("Invalid input, please try again.");
                     }
                 }
-                if(splitInput.Length != 2)
+
+                if (splitInput.Length != 2)
                 {
                     continue;
                 }
@@ -378,11 +381,11 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
             LegalDestCell.CellSign = i_PlayerSign;
             LegalOriginCell.CellSign = eSign.Empty;
         }
+
         private void InvalidInputMessage(string[] splitInput)
         {
             System.Console.WriteLine("Invalid input, please try again.");
             System.Array.Clear(splitInput, 0, 1);
-
         }
     }
 }

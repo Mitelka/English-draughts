@@ -33,3 +33,5 @@ C:\Users\Erez\Source\Repos\English-draughts\B18_EX02\obj\Debug\B18_EX02.csprojRe
 C:\Users\Erez\Source\Repos\English-draughts\B18_EX02\obj\Debug\B18_EX02.csproj.CoreCompileInputs.cache
 C:\Users\Erez\Source\Repos\English-draughts\B18_EX02\obj\Debug\B18_EX02.exe
 C:\Users\Erez\Source\Repos\English-draughts\B18_EX02\obj\Debug\B18_EX02.pdb
+C:\Users\Erez\Source\Repos\English-draughts\B18_EX02\bin\Debug\Ex02.ConsoleUtils.dll
+C:\Users\Erez\Source\Repos\English-draughts\B18_EX02\obj\Debug\B18_EX02.csproj.CopyComplete
