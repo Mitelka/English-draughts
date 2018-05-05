@@ -322,11 +322,14 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                             s_PrevStep = userInput;
                             isLegalMove = true;
                         }
+                        else
+                        {
+                            InvalidInputMessage(splitInput);
+                        }
                     }
                     else
                     {
-                        System.Console.WriteLine("Invalid input, please try again.");
-                        System.Array.Clear(splitInput, 0, 1);
+                        InvalidInputMessage(splitInput);
                     }
                 }
                 else
@@ -374,6 +377,12 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
         {
             LegalDestCell.CellSign = i_PlayerSign;
             LegalOriginCell.CellSign = eSign.Empty;
+        }
+        private void InvalidInputMessage(string[] splitInput)
+        {
+            System.Console.WriteLine("Invalid input, please try again.");
+            System.Array.Clear(splitInput, 0, 1);
+
         }
     }
 }

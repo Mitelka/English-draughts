@@ -377,7 +377,7 @@ namespace B18_EX02
             bool isLegal = false;
             foreach (Player.PlayerMovelist checkingCells in m_Players[i_PlayerIndex].PlayerPotentialMoveslist)
             {
-                if (checkingCells.originalCell.CellCol == i_OriginCell.CellCol && checkingCells.originalCell.CellRow == i_OriginCell.CellRow)
+                if (checkingCells.originalCell.CellCol == i_OriginCell.CellCol && checkingCells.originalCell.CellRow == i_OriginCell.CellRow && checkingCells.desiredCell.CellCol == i_DestCell.CellCol && checkingCells.desiredCell.CellRow == i_DestCell.CellRow)
                 {
                     isLegal = true;
                     break;
