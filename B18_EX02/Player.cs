@@ -18,6 +18,7 @@ namespace B18_EX02
         }
 
         private List<PlayerMovelist> m_PlayerMovelist = new List<PlayerMovelist>();
+        private List<PlayerMovelist> m_PlayerEatingOptionlist = new List<PlayerMovelist>();
 
         public Player(ePlayerType i_PlayerType, eSign i_Sign, string i_PlayerName)
         {
@@ -38,5 +39,6 @@ namespace B18_EX02
         public int NumOfTokens { get => m_NumOfTokens; set => m_NumOfTokens = value; }
 
         public List<PlayerMovelist> PlayerPotentialMoveslist { get => m_PlayerMovelist; set => m_PlayerMovelist = value; }
+        public List<PlayerMovelist> PlayerPotentialEatinglist { get => m_PlayerEatingOptionlist; set => m_PlayerEatingOptionlist = value; }
     }
 }

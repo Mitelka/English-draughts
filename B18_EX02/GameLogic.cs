@@ -58,6 +58,24 @@ namespace B18_EX02
                     }
                 }
             }
+            GetAllEatingOptionalCellMove(m_Players[i_PlayerIndex].PlayerPotentialMoveslist, i_PlayerIndex);
+            
+  
+        }
+        public void GetAllEatingOptionalCellMove(List<Player.PlayerMovelist> m_PlayerEatingOptionlist, int i_PlayerIndex)
+        {
+            m_Players[i_PlayerIndex].PlayerPotentialEatinglist.Clear();
+            foreach (Player.PlayerMovelist optionaEatingMove in m_Players[i_PlayerIndex].PlayerPotentialMoveslist)
+            {
+                if (Math.Abs(optionaEatingMove.originalCell.CellRow - optionaEatingMove.desiredCell.CellRow) == 2)
+                {
+                    m_Players[i_PlayerIndex].PlayerPotentialEatinglist.Add(new Player.PlayerMovelist() { originalCell = optionaEatingMove.originalCell, desiredCell = optionaEatingMove.desiredCell });
+                }
+            }
+            if (m_Players[i_PlayerIndex].PlayerPotentialEatinglist.Count != 0)
+            {
+                m_Players[i_PlayerIndex].PlayerPotentialMoveslist = m_Players[i_PlayerIndex].PlayerPotentialEatinglist;
+            }
         }
 
         public bool AreCellsLegal(Cell i_OriginCell, Cell i_DestCell, eSign i_PlayerSign, ref bool o_DidEatFlag)
@@ -281,6 +299,8 @@ namespace B18_EX02
             bool gameOverFlag = false;
             int otherPlayerIndex = GetOtherPlayerIndex(i_PlayerIndex);
             GetAllOptionalCellMove(otherPlayerIndex, m_Players[otherPlayerIndex].Sign, ref didEat);
+            GetAllOptionalCellMove(i_PlayerIndex, m_Players[i_PlayerIndex].Sign, ref didEat);
+
             if (m_Players[otherPlayerIndex].NumOfTokens == 0)
             {
                 gameOverFlag = true;
@@ -306,6 +326,20 @@ namespace B18_EX02
             int playerMove = rndNumber.Next(0, m_Players[i_PlayerIndex].PlayerPotentialMoveslist.Count);
             o_legalOriginCell = m_Players[i_PlayerIndex].PlayerPotentialMoveslist[playerMove].originalCell;
             o_legalDesiredCell = m_Players[i_PlayerIndex].PlayerPotentialMoveslist[playerMove].desiredCell;
+        }
+        public bool CheakIfCellsInThePossibaleList(Cell i_OriginCell, Cell i_DestCell, int i_PlayerIndex)
+        {
+            bool isLegal = false;
+            foreach (Player.PlayerMovelist cheakingCells in m_Players[i_PlayerIndex].PlayerPotentialMoveslist)
+            {
+                if (cheakingCells.originalCell.CellCol == i_OriginCell.CellCol && cheakingCells.originalCell.CellRow == i_OriginCell.CellRow)
+                {
+                    isLegal = true;
+                    break;
+                }
+            }
+
+            return isLegal;
         }
     }
 }
