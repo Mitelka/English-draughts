@@ -111,14 +111,14 @@ namespace B18_EX02
                 switch (m_GameBoard[i_OriginCell].CellSign)
                 {
                     case eSign.O:
-                        moveIsLegal = CheckingOplayerCellsLegal(i_OriginCell, i_DestCell);
+                        moveIsLegal = checkingOplayerCellsLegal(i_OriginCell, i_DestCell);
                         break;
 
                     case eSign.X:
-                        moveIsLegal = CheckingXplayerCellsLegal(i_OriginCell, i_DestCell);
+                        moveIsLegal = checkingXplayerCellsLegal(i_OriginCell, i_DestCell);
                         break;
                     case eSign.K:
-                        // TODO
+                        moveIsLegal = checkingKingPlayerCellsLegal(i_OriginCell, i_DestCell, m_GameBoard[i_OriginCell].CellSign);
                         break;
                     case eSign.U:
                         // TODO
@@ -129,20 +129,65 @@ namespace B18_EX02
             return moveIsLegal;
         }
 
-        public bool IsPossibleToEat(Cell i_TheCellInTheMiddle, Cell i_OriginCell)
+        private bool isPossibleToEat(Cell i_TheCellInTheMiddle, Cell i_OriginCell, bool i_IsKing)
         {
-
-            if (m_GameBoard[i_TheCellInTheMiddle].CellSign != eSign.Empty && m_GameBoard[i_TheCellInTheMiddle].CellSign != m_GameBoard[i_OriginCell].CellSign)
+            bool isPossible = false;
+            if (m_GameBoard[i_TheCellInTheMiddle].CellSign != eSign.Empty)
             {
-                return true;
+                if (!i_IsKing && m_GameBoard[i_TheCellInTheMiddle].CellSign != m_GameBoard[i_OriginCell].CellSign)
+                {
+                    isPossible = true;
+                }
+                else if(i_IsKing && m_GameBoard[i_TheCellInTheMiddle].CellSign != m_GameBoard[i_OriginCell].CellSign && 
+                        m_GameBoard[i_TheCellInTheMiddle].CellSign != getKingsRegSign(m_GameBoard[i_TheCellInTheMiddle].CellSign))
+                {
+                    isPossible = true;
+                }
             }
-
-            return false;
+            return isPossible;
         }
 
-        public bool CheckingOplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
+        private eSign getKingsRegSign(eSign i_KingSign)
+        {
+            eSign regSign = eSign.Empty;
+            switch(i_KingSign)
+            {
+                case eSign.U:
+                    regSign = eSign.O;
+                    break;
+                case eSign.K:
+                    regSign = eSign.X;
+                    break;
+            }
+            return regSign;
+        }
+
+        private bool checkingKingPlayerCellsLegal(Cell i_OriginCell, Cell i_DestCell, eSign i_CellSign)
         {
             bool isLegal = true;
+            bool isKing = true;
+            int middleRow = (i_OriginCell.CellRow + i_DestCell.CellRow) / 2;
+            int middleCol = (i_OriginCell.CellCol + i_DestCell.CellCol) / 2;
+            if (Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow) > 2 || (Math.Abs(i_DestCell.CellCol - i_OriginCell.CellCol) > 2))
+            {
+                isLegal = false;
+            }
+            else if(Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow) == 2 && (Math.Abs(i_DestCell.CellCol - i_OriginCell.CellCol) == 2))
+            {
+                if (!isPossibleToEat(m_GameBoard.m_PlayBoard[middleRow, middleCol], i_OriginCell, isKing)) 
+                {
+                    isLegal = false;
+                }
+            }
+
+
+            return isLegal;
+        }
+
+        private bool checkingOplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
+        {
+            bool isLegal = true;
+            bool isKing = false;
             if (i_OriginCell.CellRow >= i_DestCell.CellRow || i_OriginCell.CellCol == i_DestCell.CellCol)
             {
                 isLegal = false;
@@ -153,14 +198,14 @@ namespace B18_EX02
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && i_OriginCell.CellCol == i_DestCell.CellCol - 2)
             {
-                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol + 1], i_OriginCell))
+                if (!isPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol + 1], i_OriginCell, isKing))
                 {
                     isLegal = false;
                 }
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && i_OriginCell.CellCol == i_DestCell.CellCol + 2)
             {
-                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol - 1], i_OriginCell))
+                if (!isPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol - 1], i_OriginCell, isKing))
                 {
                     isLegal = false;
                 }
@@ -170,10 +215,10 @@ namespace B18_EX02
             return isLegal;
         }
 
-        public bool CheckingXplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
+        private bool checkingXplayerCellsLegal(Cell i_OriginCell, Cell i_DestCell)
         {
             bool isLegal = true;
-
+            bool isKing = false;
             if (i_OriginCell.CellRow <= i_DestCell.CellRow || i_OriginCell.CellCol == i_DestCell.CellCol)
             {
                 isLegal = false;
@@ -184,7 +229,7 @@ namespace B18_EX02
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow + 2 && (i_OriginCell.CellCol == i_DestCell.CellCol - 2))
             {
-                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol + 1], i_OriginCell))
+                if (!isPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol + 1], i_OriginCell, isKing))
                 {
                     isLegal = false;
                 }
@@ -192,7 +237,7 @@ namespace B18_EX02
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow + 2 && (i_OriginCell.CellCol == i_DestCell.CellCol + 2))
             {
-                if (!IsPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1], i_OriginCell))
+                if (!isPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1], i_OriginCell, isKing))
                 {
                     isLegal = false;
                 }
