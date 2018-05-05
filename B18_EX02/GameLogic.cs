@@ -39,7 +39,7 @@ namespace B18_EX02
             }
         }
 
-        public void GetAllOptionalCellMove(int i_PlayerIndex, eSign playerSign, ref bool o_DidEat)
+        public void UpdateAllOptionalCellMove(int i_PlayerIndex, eSign playerSign, ref bool o_DidEat)
         {
             m_Players[i_PlayerIndex].PlayerPotentialMoveslist.Clear();
             foreach (Cell cell in m_GameBoard.m_PlayBoard)
@@ -58,23 +58,23 @@ namespace B18_EX02
                     }
                 }
             }
-            GetAllEatingOptionalCellMove(m_Players[i_PlayerIndex].PlayerPotentialMoveslist, i_PlayerIndex);
-            
-  
+
+            updateAllEatingOptionalCellMove(m_Players[i_PlayerIndex].PlayerPotentialMoveslist, i_PlayerIndex);
         }
-        public void GetAllEatingOptionalCellMove(List<Player.PlayerMovelist> m_PlayerEatingOptionlist, int i_PlayerIndex)
+
+        private void updateAllEatingOptionalCellMove(List<Player.PlayerMovelist> m_PlayerEatingOptionlist, int i_PlayerIndex)
         {
-            m_Players[i_PlayerIndex].PlayerPotentialEatinglist.Clear();
+            List<Player.PlayerMovelist> playerPotentialEatinglist = new List<Player.PlayerMovelist>();
             foreach (Player.PlayerMovelist optionaEatingMove in m_Players[i_PlayerIndex].PlayerPotentialMoveslist)
             {
                 if (Math.Abs(optionaEatingMove.originalCell.CellRow - optionaEatingMove.desiredCell.CellRow) == 2)
                 {
-                    m_Players[i_PlayerIndex].PlayerPotentialEatinglist.Add(new Player.PlayerMovelist() { originalCell = optionaEatingMove.originalCell, desiredCell = optionaEatingMove.desiredCell });
+                    playerPotentialEatinglist.Add(new Player.PlayerMovelist() { originalCell = optionaEatingMove.originalCell, desiredCell = optionaEatingMove.desiredCell });
                 }
             }
-            if (m_Players[i_PlayerIndex].PlayerPotentialEatinglist.Count != 0)
+            if (playerPotentialEatinglist.Count != 0)
             {
-                m_Players[i_PlayerIndex].PlayerPotentialMoveslist = m_Players[i_PlayerIndex].PlayerPotentialEatinglist;
+                m_Players[i_PlayerIndex].PlayerPotentialMoveslist = playerPotentialEatinglist;
             }
         }
 
@@ -297,8 +297,8 @@ namespace B18_EX02
             bool didEat = false;
             bool gameOverFlag = false;
             int otherPlayerIndex = GetOtherPlayerIndex(i_PlayerIndex);
-            GetAllOptionalCellMove(otherPlayerIndex, m_Players[otherPlayerIndex].Sign, ref didEat);
-            GetAllOptionalCellMove(i_PlayerIndex, m_Players[i_PlayerIndex].Sign, ref didEat);
+            UpdateAllOptionalCellMove(otherPlayerIndex, m_Players[otherPlayerIndex].Sign, ref didEat);
+            UpdateAllOptionalCellMove(i_PlayerIndex, m_Players[i_PlayerIndex].Sign, ref didEat);
 
             if (m_Players[otherPlayerIndex].NumOfTokens == 0)
             {

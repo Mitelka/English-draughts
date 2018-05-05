@@ -225,7 +225,7 @@ Please enter the desired game type:
             bool quitRequest = false;
             bool isKing;
 
-            m_GameLogic.GetAllOptionalCellMove(0, m_Players[0].Sign, ref didEat);
+            m_GameLogic.UpdateAllOptionalCellMove(0, m_Players[0].Sign, ref didEat);
             while (!m_IsGameOver && !quitRequest)             
             {
                 for (byte playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
