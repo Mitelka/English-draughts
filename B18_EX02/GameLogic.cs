@@ -261,7 +261,7 @@ namespace B18_EX02
             o_DidEat = false;
             eSign kingSign;
             o_IsKingFlag = false;
-            if (checkIfKing(i_DestCell, i_PlayerIndex, out kingSign))
+            if (checkIfBecomingKing(i_DestCell, i_PlayerIndex, out kingSign))
             {
                 o_IsKingFlag = true;
                 i_DestCell.CellSign = kingSign;
@@ -282,7 +282,7 @@ namespace B18_EX02
             m_GameBoard[i_OriginCell] = i_OriginCell;
             m_GameBoard[i_DestCell] = i_DestCell;
         }
-        public bool CheakDoubleEatingMove(Cell newCellAfterFirstEating, int i_playerIndex)
+        public bool CheckDoubleEatingMove(Cell newCellAfterFirstEating, int i_playerIndex)
         {
             List<Player.PlayerMovelist> DoubleEatingList = new List<Player.PlayerMovelist>();
             DoubleEatingList.Clear();
@@ -351,22 +351,22 @@ namespace B18_EX02
             return winnerIndex;
         }
 
-        private bool checkIfKing(Cell i_DestCell, int i_PlayerIndex, out eSign o_Sign)
+        private bool checkIfBecomingKing(Cell i_DestCell, int i_PlayerIndex, out eSign o_Sign)
         {
-            bool isKingFlag = false;
+            bool isBecomingKingFlag = false;
             o_Sign = eSign.Empty;
             if ((m_Players[i_PlayerIndex].Sign == eSign.O) && (i_DestCell.CellRow == m_BoardSize - 1))
             {
                 o_Sign = eSign.U;
-                isKingFlag = true;
+                isBecomingKingFlag = true;
             }
             else if ((m_Players[i_PlayerIndex].Sign == eSign.X) && (i_DestCell.CellRow == 0))
             {
                 o_Sign = eSign.K;
-                isKingFlag = true;
+                isBecomingKingFlag = true;
             }
 
-            return isKingFlag;
+            return isBecomingKingFlag;
         }
 
         public bool CheckIfGameOver(Cell i_RequestedCell, int i_PlayerIndex)

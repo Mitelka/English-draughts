@@ -131,7 +131,7 @@ Please enter the desired game type:
         private void printBoard()
         {
             StringBuilder boardStringBuilder;
-     //       Ex02.ConsoleUtils.Screen.Clear();
+            Ex02.ConsoleUtils.Screen.Clear();
             addColLettersToString(out boardStringBuilder);
             printBoardRowSep(ref boardStringBuilder);
             for (byte currentRow = 0; currentRow < m_GameLogic.GameBoard.BoardSize; currentRow++)
@@ -254,7 +254,7 @@ Please enter the desired game type:
                     }
                     if (didEat)
                     {
-                        if (m_GameLogic.CheakDoubleEatingMove(destCell, playerIndex))
+                        if (m_GameLogic.CheckDoubleEatingMove(destCell, playerIndex))
                         {
                             playerIndex--;
                             playerHasAnotherMove = true;
@@ -273,6 +273,7 @@ Please enter the desired game type:
         private void resetRound()
         {
             m_GameLogic.GameBoard.ResetBoard();
+            m_IsGameOver = false;
         }
 
         private void getLegalDesiredCell(int i_PlayerIndex, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell, ref bool o_Dideat, bool playerHasAnotherMove)
@@ -337,6 +338,7 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
 
                 if (splitInput.Length != 2)
                 {
+                    System.Console.WriteLine("Invalid input, please try again.");
                     continue;
                 }
 
@@ -403,7 +405,7 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
 
         private void setSignAfterMove(eSign i_PlayerSign, Cell LegalDestCell, Cell LegalOriginCell)
         {
-            LegalDestCell.CellSign = i_PlayerSign;
+            LegalDestCell.CellSign = m_GameLogic.m_GameBoard[LegalOriginCell].CellSign;
             LegalOriginCell.CellSign = eSign.Empty;
         }
 
