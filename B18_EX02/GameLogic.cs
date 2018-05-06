@@ -282,7 +282,6 @@ namespace B18_EX02
             m_GameBoard[i_OriginCell] = i_OriginCell;
             m_GameBoard[i_OriginCell].CellSign = eSign.Empty;
             m_GameBoard[i_DestCell] = i_DestCell;
-            m_GameBoard[i_DestCell].CellSign = m_Players[i_PlayerIndex].Sign;
         }
         public bool CheckDoubleEatingMove(Cell newCellAfterFirstEating, int i_playerIndex)
         {
