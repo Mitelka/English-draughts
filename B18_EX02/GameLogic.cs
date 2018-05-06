@@ -321,13 +321,12 @@ namespace B18_EX02
         {
             if (i_DidEat)
             {
-                m_Players[i_PlayerIndex].NumOfTokens += 1;
                 m_Players[GetOtherPlayerIndex(i_PlayerIndex)].NumOfTokens -= 1;
             }
 
             if (i_IsKing)
             {
-                m_Players[i_PlayerIndex].NumOfTokens += 4;
+                m_Players[i_PlayerIndex].NumOfTokens += 3;
             }
         }
 
