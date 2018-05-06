@@ -9,7 +9,7 @@ namespace B18_EX02
         private byte m_BoardSize;
         private eGameType m_GameType;
         private eGameResult m_GameResult;
-        public Board m_GameBoard;
+        public static Board m_GameBoard;
 
         public GameLogic(Player[] i_players, byte i_boardSize, eGameType i_gameType)
         {
