@@ -118,10 +118,9 @@ namespace B18_EX02
                         moveIsLegal = checkingXplayerCellsLegal(i_OriginCell, i_DestCell);
                         break;
                     case eSign.K:
-                        moveIsLegal = checkingKingPlayerCellsLegal(i_OriginCell, i_DestCell, m_GameBoard[i_OriginCell].CellSign);
-                        break;
+                        goto kingSignCheck;
                     case eSign.U:
-                        // TODO
+                    kingSignCheck: moveIsLegal = checkingKingPlayerCellsLegal(i_OriginCell, i_DestCell, m_GameBoard[i_OriginCell].CellSign);
                         break;
                 }
             }
