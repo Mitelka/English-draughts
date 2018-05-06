@@ -43,7 +43,7 @@ namespace B18_EX02
             m_Players[i_PlayerIndex].PlayerPotentialMoveslist.Clear();
             foreach (Cell cell in m_GameBoard.m_PlayBoard)
             {
-                if (cell.CellSign == playerSign)
+                if (cell.CellSign == playerSign || cell.CellSign == getKingsAlterSign(playerSign))
                 {
                     foreach (Cell matchCell in m_GameBoard.m_PlayBoard)
                     {
