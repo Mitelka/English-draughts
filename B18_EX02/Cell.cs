@@ -1,4 +1,5 @@
-﻿namespace B18_EX02
+﻿using System.Text;
+namespace B18_EX02
 {
     public class Cell
     {
@@ -34,6 +35,16 @@
             }
 
             return isValidInput;
+        }
+
+        public string GetCellStr()
+        {
+            StringBuilder cellStr = new StringBuilder();
+            cellStr.Append((char)(m_CellCol + 'A'));
+            cellStr.Append((char)(m_CellRow + 'a'));
+
+            return cellStr.ToString();
+
         }
 }
 }

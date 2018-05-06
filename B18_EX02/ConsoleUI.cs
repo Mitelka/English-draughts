@@ -131,7 +131,7 @@ Please enter the desired game type:
         private void printBoard()
         {
             StringBuilder boardStringBuilder;
-            Ex02.ConsoleUtils.Screen.Clear();
+     //       Ex02.ConsoleUtils.Screen.Clear();
             addColLettersToString(out boardStringBuilder);
             printBoardRowSep(ref boardStringBuilder);
             for (byte currentRow = 0; currentRow < m_GameLogic.GameBoard.BoardSize; currentRow++)
@@ -279,6 +279,7 @@ Please enter the desired game type:
         {
             o_LegalOriginCell = null;
             o_LegalDestCell = null;
+            StringBuilder compStepStr = new StringBuilder();
             eSign playerSign = m_Players[i_PlayerIndex].Sign;
             ePlayerType playerType = m_Players[i_PlayerIndex].PlayerType;
 
@@ -289,6 +290,7 @@ Please enter the desired game type:
             else
             {
                 m_GameLogic.SetComputerMove(i_PlayerIndex, out o_LegalOriginCell, out o_LegalDestCell, ref o_Dideat);
+                s_PrevStep = compStepStr.Append(o_LegalOriginCell.GetCellStr()).Append(">").Append(o_LegalDestCell.GetCellStr()).ToString();
                 setSignAfterMove(playerSign, o_LegalDestCell, o_LegalOriginCell);
             }
         }
@@ -350,12 +352,12 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                         }
                         else
                         {
-                            InvalidInputMessage(splitInput);
+                            invalidInputMessage(splitInput);
                         }
                     }
                     else
                     {
-                        InvalidInputMessage(splitInput);
+                        invalidInputMessage(splitInput);
                     }
                 }
                 else
@@ -405,7 +407,7 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
             LegalOriginCell.CellSign = eSign.Empty;
         }
 
-        private void InvalidInputMessage(string[] splitInput)
+        private void invalidInputMessage(string[] splitInput)
         {
             System.Console.WriteLine("Invalid input, please try again.");
             System.Array.Clear(splitInput, 0, 1);
