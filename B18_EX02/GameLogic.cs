@@ -41,11 +41,11 @@ namespace B18_EX02
         public void UpdateAllOptionalCellMove(int i_PlayerIndex, eSign playerSign, ref bool o_DidEat)
         {
             m_Players[i_PlayerIndex].PlayerPotentialMoveslist.Clear();
-            foreach (Cell cell in m_GameBoard.m_PlayBoard)
+            foreach (Cell cell in m_GameBoard.PlayBoard)
             {
                 if (cell.CellSign == playerSign || cell.CellSign == getKingsAlterSign(playerSign))
                 {
-                    foreach (Cell matchCell in m_GameBoard.m_PlayBoard)
+                    foreach (Cell matchCell in m_GameBoard.PlayBoard)
                     {
                         if (matchCell.CellSign == eSign.Empty)
                         {
@@ -180,7 +180,7 @@ namespace B18_EX02
             }
             else if(Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow) == 2 && (Math.Abs(i_DestCell.CellCol - i_OriginCell.CellCol) == 2))
             {
-                if (!isPossibleToEat(m_GameBoard.m_PlayBoard[middleRow, middleCol], i_OriginCell, isKing)) 
+                if (!isPossibleToEat(m_GameBoard.PlayBoard[middleRow, middleCol], i_OriginCell, isKing)) 
                 {
                     isLegal = false;
                 }
@@ -203,14 +203,14 @@ namespace B18_EX02
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && i_OriginCell.CellCol == i_DestCell.CellCol - 2)
             {
-                if (!isPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol + 1], i_OriginCell, isKing))
+                if (!isPossibleToEat(m_GameBoard.PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol + 1], i_OriginCell, isKing))
                 {
                     isLegal = false;
                 }
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow - 2 && i_OriginCell.CellCol == i_DestCell.CellCol + 2)
             {
-                if (!isPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol - 1], i_OriginCell, isKing))
+                if (!isPossibleToEat(m_GameBoard.PlayBoard[i_OriginCell.CellRow + 1, i_OriginCell.CellCol - 1], i_OriginCell, isKing))
                 {
                     isLegal = false;
                 }             
@@ -234,14 +234,14 @@ namespace B18_EX02
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow + 2 && (i_OriginCell.CellCol == i_DestCell.CellCol - 2))
             {
-                if (!isPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol + 1], i_OriginCell, isKing))
+                if (!isPossibleToEat(m_GameBoard.PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol + 1], i_OriginCell, isKing))
                 {
                     isLegal = false;
                 }         
             }
             else if (i_OriginCell.CellRow == i_DestCell.CellRow + 2 && (i_OriginCell.CellCol == i_DestCell.CellCol + 2))
             {
-                if (!isPossibleToEat(m_GameBoard.m_PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1], i_OriginCell, isKing))
+                if (!isPossibleToEat(m_GameBoard.PlayBoard[i_OriginCell.CellRow - 1, i_OriginCell.CellCol - 1], i_OriginCell, isKing))
                 {
                     isLegal = false;
                 }
@@ -342,7 +342,7 @@ namespace B18_EX02
             for (int playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
             {
                 m_Players[playerIndex].NumOfTokens = 0;
-                foreach(Cell cell in m_GameBoard.m_PlayBoard)
+                foreach(Cell cell in m_GameBoard.PlayBoard)
                 {
                     if(cell.CellSign == m_Players[playerIndex].Sign)
                     {

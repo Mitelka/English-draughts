@@ -4,7 +4,7 @@
     {
         private readonly byte m_NumOfRows;
         private readonly byte m_NumOfCols;
-        public Cell[,] m_PlayBoard;
+        private Cell[,] m_PlayBoard;
 
         public Board(byte i_boardSize)
         {

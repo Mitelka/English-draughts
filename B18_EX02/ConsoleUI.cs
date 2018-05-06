@@ -231,7 +231,7 @@ Please enter the desired game type:
             m_GameLogic.UpdateAllOptionalCellMove(0, m_Players[0].Sign, ref didEat);
             while (!m_IsGameOver && !quitRequest)             
             {
-                for (byte playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
+                for (byte playerIndex = 0; playerIndex < m_Players.Length && !m_IsGameOver; playerIndex++)
                 {                   
                     getLegalDesiredCell(playerIndex, ref quitRequest, out originCell, out destCell, ref didEat, playerHasAnotherMove);
                     if(quitRequest)
@@ -254,7 +254,6 @@ Please enter the desired game type:
                         }
 
                         showResults(m_GameLogic.GetWinnerOfAllGamesIndex());
-                        playerIndex = (byte)m_Players.Length;
                     }
 
                     else if (didEat)
