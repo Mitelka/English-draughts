@@ -276,6 +276,7 @@ Please enter the desired game type:
         {
             m_GameLogic.GameBoard.ResetBoard();
             m_IsGameOver = false;
+            s_PrevStep = string.Empty;
         }
 
         private void getLegalDesiredCell(int i_PlayerIndex, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell, ref bool o_Dideat, bool playerHasAnotherMove)
