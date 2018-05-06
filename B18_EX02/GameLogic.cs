@@ -266,6 +266,10 @@ namespace B18_EX02
                 o_IsKingFlag = true;
                 i_DestCell.CellSign = kingSign;
             }
+            else
+            {
+                i_DestCell.CellSign = m_GameBoard[i_OriginCell].CellSign;
+            }
 
             if (Math.Abs(i_OriginCell.CellRow - i_DestCell.CellRow) == 2)
             {
@@ -278,7 +282,8 @@ namespace B18_EX02
 
                 o_DidEat = true;
             }
-            
+
+
             m_GameBoard[i_OriginCell] = i_OriginCell;
             m_GameBoard[i_OriginCell].CellSign = eSign.Empty;
             m_GameBoard[i_DestCell] = i_DestCell;
