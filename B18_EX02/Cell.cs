@@ -1,4 +1,5 @@
 ﻿using System.Text;
+
 namespace B18_EX02
 {
     public class Cell
@@ -35,7 +36,6 @@ namespace B18_EX02
                     {
                         isValidInput = false;
                     }
-
                     else
                     {
                         isValidInput = true;
@@ -53,7 +53,6 @@ namespace B18_EX02
             cellStr.Append((char)(m_CellRow + 'a'));
 
             return cellStr.ToString();
-
         }
 }
 }

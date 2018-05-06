@@ -119,7 +119,8 @@ namespace B18_EX02
                     case eSign.K:
                         goto kingSignCheck;
                     case eSign.U:
-                    kingSignCheck: moveIsLegal = checkingKingPlayerCellsLegal(i_OriginCell, i_DestCell, m_GameBoard[i_OriginCell].CellSign);
+                    kingSignCheck:
+                    moveIsLegal = checkingKingPlayerCellsLegal(i_OriginCell, i_DestCell, m_GameBoard[i_OriginCell].CellSign);
                         break;
                 }
             }
@@ -283,7 +284,6 @@ namespace B18_EX02
                 o_DidEat = true;
             }
 
-
             m_GameBoard[i_OriginCell] = i_OriginCell;
             m_GameBoard[i_OriginCell].CellSign = eSign.Empty;
             m_GameBoard[i_DestCell] = i_DestCell;
@@ -307,9 +307,9 @@ namespace B18_EX02
                         isDoubleEatingPossible = true;
                         DoubleEatingList.Add(new Player.PlayerMovelist() { originalCell = newCellAfterFirstEating, desiredCell = optionalCell.desiredCell });
                     }
-
                 }
             }
+
             if (DoubleEatingList.Count != 0)
             {
                 m_Players[i_playerIndex].PlayerPotentialMoveslist = DoubleEatingList;

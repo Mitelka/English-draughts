@@ -47,7 +47,6 @@
                 {
                     System.Console.WriteLine("Player Name is to big!! try again");               
                 }
-
                 else if (name.Contains(" "))
                 {
                     System.Console.WriteLine("Player Name Contains Space!! try again");
@@ -133,7 +132,7 @@ Please enter the desired game type:
         private void printBoard()
         {
             StringBuilder boardStringBuilder;
-          //  Ex02.ConsoleUtils.Screen.Clear();
+            Ex02.ConsoleUtils.Screen.Clear();
             addColLettersToString(out boardStringBuilder);
             printBoardRowSep(ref boardStringBuilder);
             for (byte currentRow = 0; currentRow < m_GameLogic.GameBoard.BoardSize; currentRow++)
@@ -255,7 +254,6 @@ Please enter the desired game type:
 
                         showResults(m_GameLogic.GetWinnerOfAllGamesIndex());
                     }
-
                     else if (didEat)
                     {
                         if (m_GameLogic.CheckDoubleEatingMove(destCell, playerIndex))
@@ -356,7 +354,6 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                             s_PrevStep = userInput;
                             isLegalMove = true;
                         }
-
                         else
                         {
                             invalidInputMessage(splitInput);
@@ -407,7 +404,6 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
 
             return continuePlayingFlag;
         }
-
 
         private void invalidInputMessage(string[] splitInput)
         {
