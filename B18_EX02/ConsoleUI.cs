@@ -48,13 +48,15 @@
                     System.Console.WriteLine("Player Name is to big!! try again");               
                 }
 
-                if (name.Contains(" "))
+                else if (name.Contains(" "))
                 {
                     System.Console.WriteLine("Player Name Contains Space!! try again");
                 }
-
-                nameToBigFlag = false;
-                nameHasSpaceFlag = false;
+                else
+                {
+                    nameToBigFlag = false;
+                    nameHasSpaceFlag = false;
+                }
             }
 
             return name;

@@ -136,8 +136,8 @@ namespace B18_EX02
                 {
                     isPossible = true;
                 }
-                else if(i_IsKing && m_GameBoard[i_TheCellInTheMiddle].CellSign != m_GameBoard[i_OriginCell].CellSign && 
-                        m_GameBoard[i_TheCellInTheMiddle].CellSign != getKingsAlterSign(m_GameBoard[i_TheCellInTheMiddle].CellSign))
+                else if(i_IsKing && m_GameBoard[i_TheCellInTheMiddle].CellSign != m_GameBoard[i_OriginCell].CellSign &&
+                        m_GameBoard[i_TheCellInTheMiddle].CellSign != getKingsAlterSign(m_GameBoard[i_OriginCell].CellSign))
                 {
                     isPossible = true;
                 }
