@@ -245,7 +245,8 @@ Please enter the desired game type:
                     m_GameLogic.UpdatePlayerTokens(playerIndex, didEat, isKing);
                     printBoard();
                     m_IsGameOver = m_GameLogic.CheckIfGameOver(destCell, playerIndex);
-                    if(m_IsGameOver)
+
+                    if (m_IsGameOver)
                     {
                         if(m_GameLogic.GameResult == eGameResult.WINNER)
                         {
@@ -253,8 +254,10 @@ Please enter the desired game type:
                         }
 
                         showResults(m_GameLogic.GetWinnerOfAllGamesIndex());
+                        playerIndex = (byte)m_Players.Length;
                     }
-                    if (didEat)
+
+                    else if (didEat)
                     {
                         if (m_GameLogic.CheckDoubleEatingMove(destCell, playerIndex))
                         {
@@ -350,11 +353,11 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                     if(Cell.Parse(splitInput[0], out o_LegalOriginCell) && Cell.Parse(splitInput[1], out o_LegalDestCell) && m_GameLogic.AreCellsLegal(o_LegalOriginCell, o_LegalDestCell, i_PlayerSign, ref o_DidEat))
                     {
                         if (m_GameLogic.CheckIfCellsInThePossibleList(o_LegalOriginCell, o_LegalDestCell, i_PlayerIndex))
-                        {
-                        //    setSignAfterMove(i_PlayerSign, o_LegalDestCell, o_LegalOriginCell);
+                        {                          
                             s_PrevStep = userInput;
                             isLegalMove = true;
                         }
+
                         else
                         {
                             invalidInputMessage(splitInput);
