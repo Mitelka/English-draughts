@@ -223,6 +223,7 @@ Please enter the desired game type:
             Cell destCell;
             bool didEat = false;
             bool quitRequest = false;
+            bool playerHasAnotherMove = false;
             bool isKing;
 
             m_GameLogic.UpdateAllOptionalCellMove(0, m_Players[0].Sign, ref didEat);
@@ -230,7 +231,7 @@ Please enter the desired game type:
             {
                 for (byte playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
                 {                   
-                    getLegalDesiredCell(playerIndex, ref quitRequest, out originCell, out destCell, ref didEat);
+                    getLegalDesiredCell(playerIndex, ref quitRequest, out originCell, out destCell, ref didEat, playerHasAnotherMove);
                     if(quitRequest)
                     {
                         m_GameLogic.UpdateWinnerScore(m_GameLogic.GetOtherPlayerIndex(playerIndex));
@@ -251,6 +252,18 @@ Please enter the desired game type:
 
                         showResults(m_GameLogic.GetWinnerOfAllGamesIndex());
                     }
+                    if (didEat)
+                    {
+                        if (m_GameLogic.CheakDoubleEatingMove(destCell, playerIndex))
+                        {
+                            playerIndex--;
+                            playerHasAnotherMove = true;
+                        }
+                        else
+                        {
+                            playerHasAnotherMove = false;
+                        }
+                    }
                 }
             }
 
@@ -262,7 +275,7 @@ Please enter the desired game type:
             m_GameLogic.GameBoard.ResetBoard();
         }
 
-        private void getLegalDesiredCell(int i_PlayerIndex, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell, ref bool o_Dideat)
+        private void getLegalDesiredCell(int i_PlayerIndex, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell, ref bool o_Dideat, bool playerHasAnotherMove)
         {
             o_LegalOriginCell = null;
             o_LegalDestCell = null;
@@ -271,7 +284,7 @@ Please enter the desired game type:
 
             if(playerType == ePlayerType.Human)
             {
-                getUserCellMove(i_PlayerIndex, playerSign, ref io_QuitRequest, out o_LegalOriginCell, out o_LegalDestCell, ref o_Dideat);
+                getUserCellMove(i_PlayerIndex, playerSign, ref io_QuitRequest, out o_LegalOriginCell, out o_LegalDestCell, ref o_Dideat, playerHasAnotherMove);
             }
             else
             {
@@ -280,12 +293,22 @@ Please enter the desired game type:
             }
         }
 
-        private void getUserCellMove(int i_PlayerIndex, eSign i_PlayerSign, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell, ref bool o_DidEat)
+        private void getUserCellMove(int i_PlayerIndex, eSign i_PlayerSign, ref bool io_QuitRequest, out Cell o_LegalOriginCell, out Cell o_LegalDestCell, ref bool o_DidEat, bool playerHasAnotherMove)
         {
             bool isLegalMove = false;
             o_LegalOriginCell = null;
             o_LegalDestCell = null;
-            int otherPlayerIndex = m_GameLogic.GetOtherPlayerIndex(i_PlayerIndex);
+            int otherPlayerIndex;
+            if (playerHasAnotherMove)
+            {
+                int tempSaverForCurrentPlayerIndex = i_PlayerIndex + 1;
+                otherPlayerIndex = m_GameLogic.GetOtherPlayerIndex(tempSaverForCurrentPlayerIndex);
+            }
+            else
+            {
+                otherPlayerIndex = m_GameLogic.GetOtherPlayerIndex(i_PlayerIndex);
+            }
+
             if (s_PrevStep != string.Empty)
             {
                 System.Console.WriteLine($@"{m_Players[otherPlayerIndex].PlayerName}'s move was ({m_Players[otherPlayerIndex].Sign}): {s_PrevStep}");

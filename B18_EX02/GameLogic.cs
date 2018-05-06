@@ -278,6 +278,34 @@ namespace B18_EX02
             m_GameBoard[i_OriginCell] = i_OriginCell;
             m_GameBoard[i_DestCell] = i_DestCell;
         }
+        public bool CheakDoubleEatingMove(Cell newCellAfterFirstEating, int i_playerIndex)
+        {
+            List<Player.PlayerMovelist> DoubleEatingList = new List<Player.PlayerMovelist>();
+            DoubleEatingList.Clear();
+
+            bool o_DidEat = true;
+            bool isDoubleEatingPossible = false;
+            UpdateAllOptionalCellMove(i_playerIndex, m_Players[i_playerIndex].Sign, ref o_DidEat);
+
+            foreach (Player.PlayerMovelist optionalCell in m_Players[i_playerIndex].PlayerPotentialMoveslist)
+            {
+                if (optionalCell.originalCell.CellRow == newCellAfterFirstEating.CellRow && optionalCell.originalCell.CellCol == newCellAfterFirstEating.CellCol)
+                {
+                    if (Math.Abs(optionalCell.desiredCell.CellRow - newCellAfterFirstEating.CellRow) == 2)
+                    {
+                        isDoubleEatingPossible = true;
+                        DoubleEatingList.Add(new Player.PlayerMovelist() { originalCell = newCellAfterFirstEating, desiredCell = optionalCell.desiredCell });
+                    }
+
+                }
+            }
+            if (DoubleEatingList.Count != 0)
+            {
+                m_Players[i_playerIndex].PlayerPotentialMoveslist = DoubleEatingList;
+            }
+
+            return isDoubleEatingPossible;
+        }
 
         public void UpdatePlayerTokens(int i_PlayerIndex, bool i_DidEat, bool i_IsKing)
         {
