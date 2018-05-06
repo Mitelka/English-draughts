@@ -17,7 +17,7 @@ namespace B18_EX02
             m_BoardSize = i_boardSize;
             m_GameType = i_gameType;
             initializeBoard();
-            initializeTokens();
+            InitializeTokens();
         }
 
         internal Board GameBoard { get => m_GameBoard; set => m_GameBoard = value; }
@@ -29,7 +29,7 @@ namespace B18_EX02
             m_GameBoard = new Board(m_BoardSize);
         }
 
-        private void initializeTokens()
+        public void InitializeTokens()
         {
             int numberOfTokens = ((m_BoardSize - 2) / 2) * (m_BoardSize / 2);
             for (int playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
@@ -288,6 +288,7 @@ namespace B18_EX02
             m_GameBoard[i_OriginCell].CellSign = eSign.Empty;
             m_GameBoard[i_DestCell] = i_DestCell;
         }
+
         public bool CheckDoubleEatingMove(Cell newCellAfterFirstEating, int i_playerIndex)
         {
             List<Player.PlayerMovelist> DoubleEatingList = new List<Player.PlayerMovelist>();
@@ -335,10 +336,26 @@ namespace B18_EX02
             return (i_CurrPlayerIndex + 1) % m_Players.Length;
         }
 
-        public void UpdateWinnerScore(int i_WinnerPlayerIdx)
+        public void UpdatePlayersScore(int i_WinnerIdx)
         {
-            int otherPlayerIdx = GetOtherPlayerIndex(i_WinnerPlayerIdx);
-            m_Players[i_WinnerPlayerIdx].Score = m_Players[i_WinnerPlayerIdx].NumOfTokens - m_Players[otherPlayerIdx].NumOfTokens;
+            int otherPlayerIdx = GetOtherPlayerIndex(i_WinnerIdx);
+            for (int playerIndex = 0; playerIndex < m_Players.Length; playerIndex++)
+            {
+                m_Players[playerIndex].NumOfTokens = 0;
+                foreach(Cell cell in m_GameBoard.m_PlayBoard)
+                {
+                    if(cell.CellSign == m_Players[playerIndex].Sign)
+                    {
+                        m_Players[playerIndex].NumOfTokens += 1;
+                    }
+                    else if(cell.CellSign == getKingsAlterSign(m_Players[playerIndex].Sign))
+                    {
+                        m_Players[playerIndex].NumOfTokens += 4;
+                    }
+                }
+            }
+
+            m_Players[i_WinnerIdx].Score = m_Players[i_WinnerIdx].NumOfTokens - m_Players[otherPlayerIdx].NumOfTokens;
         }
 
         public int GetWinnerOfAllGamesIndex()

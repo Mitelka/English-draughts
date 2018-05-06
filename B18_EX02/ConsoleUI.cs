@@ -236,7 +236,7 @@ Please enter the desired game type:
                     getLegalDesiredCell(playerIndex, ref quitRequest, out originCell, out destCell, ref didEat, playerHasAnotherMove);
                     if(quitRequest)
                     {
-                        m_GameLogic.UpdateWinnerScore(m_GameLogic.GetOtherPlayerIndex(playerIndex));
+                        m_GameLogic.UpdatePlayersScore(m_GameLogic.GetOtherPlayerIndex(playerIndex));
                         showResults(m_GameLogic.GetWinnerOfAllGamesIndex());
                         break;
                     }
@@ -250,7 +250,7 @@ Please enter the desired game type:
                     {
                         if(m_GameLogic.GameResult == eGameResult.WINNER)
                         {
-                            m_GameLogic.UpdateWinnerScore(playerIndex);
+                            m_GameLogic.UpdatePlayersScore(playerIndex);
                         }
 
                         showResults(m_GameLogic.GetWinnerOfAllGamesIndex());
@@ -278,6 +278,7 @@ Please enter the desired game type:
         private void resetRound()
         {
             m_GameLogic.GameBoard.ResetBoard();
+            m_GameLogic.InitializeTokens();
             m_IsGameOver = false;
             s_PrevStep = string.Empty;
         }
@@ -298,7 +299,6 @@ Please enter the desired game type:
             {
                 m_GameLogic.SetComputerMove(i_PlayerIndex, out o_LegalOriginCell, out o_LegalDestCell, ref o_Dideat);
                 s_PrevStep = compStepStr.Append(o_LegalOriginCell.GetCellStr()).Append(">").Append(o_LegalDestCell.GetCellStr()).ToString();
-            //    setSignAfterMove(playerSign, o_LegalDestCell, o_LegalOriginCell);
             }
         }
 
@@ -409,16 +409,6 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
             return continuePlayingFlag;
         }
 
-        private void setSignAfterMove(eSign i_PlayerSign, Cell LegalDestCell, Cell LegalOriginCell)
-        {
-            
-            LegalDestCell.CellSign = m_GameLogic.GameBoard[LegalOriginCell].CellSign;
-            LegalOriginCell.CellSign = eSign.Empty;
-
-            //m_GameLogic.GameBoard[LegalDestCell].CellSign = m_GameLogic.m_GameBoard[LegalOriginCell].CellSign;;
-            //m_GameLogic.GameBoard[LegalOriginCell].CellSign = eSign.Empty;
-
-        }
 
         private void invalidInputMessage(string[] splitInput)
         {
