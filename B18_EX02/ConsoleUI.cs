@@ -131,7 +131,7 @@ Please enter the desired game type:
         private void printBoard()
         {
             StringBuilder boardStringBuilder;
-            Ex02.ConsoleUtils.Screen.Clear();
+          //  Ex02.ConsoleUtils.Screen.Clear();
             addColLettersToString(out boardStringBuilder);
             printBoardRowSep(ref boardStringBuilder);
             for (byte currentRow = 0; currentRow < m_GameLogic.GameBoard.BoardSize; currentRow++)
@@ -405,8 +405,13 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
 
         private void setSignAfterMove(eSign i_PlayerSign, Cell LegalDestCell, Cell LegalOriginCell)
         {
-            LegalDestCell.CellSign = m_GameLogic.m_GameBoard[LegalOriginCell].CellSign;
+            
+            LegalDestCell.CellSign = m_GameLogic.GameBoard[LegalOriginCell].CellSign;
             LegalOriginCell.CellSign = eSign.Empty;
+
+            //m_GameLogic.GameBoard[LegalDestCell].CellSign = m_GameLogic.m_GameBoard[LegalOriginCell].CellSign;;
+            //m_GameLogic.GameBoard[LegalOriginCell].CellSign = eSign.Empty;
+
         }
 
         private void invalidInputMessage(string[] splitInput)

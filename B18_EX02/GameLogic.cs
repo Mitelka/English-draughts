@@ -9,7 +9,7 @@ namespace B18_EX02
         private byte m_BoardSize;
         private eGameType m_GameType;
         private eGameResult m_GameResult;
-        public Board m_GameBoard;
+        public static Board m_GameBoard;
 
         public GameLogic(Player[] i_players, byte i_boardSize, eGameType i_gameType)
         {
@@ -278,9 +278,11 @@ namespace B18_EX02
 
                 o_DidEat = true;
             }
-           
+            
             m_GameBoard[i_OriginCell] = i_OriginCell;
+            m_GameBoard[i_OriginCell].CellSign = eSign.Empty;
             m_GameBoard[i_DestCell] = i_DestCell;
+            m_GameBoard[i_DestCell].CellSign = m_Players[i_PlayerIndex].Sign;
         }
         public bool CheckDoubleEatingMove(Cell newCellAfterFirstEating, int i_playerIndex)
         {
