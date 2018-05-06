@@ -81,7 +81,7 @@ namespace B18_EX02
         public bool AreCellsLegal(Cell i_OriginCell, Cell i_DestCell, eSign i_PlayerSign, ref bool o_DidEatFlag)
         {
             bool moveIsLegal = true;
-            if (m_GameBoard[i_OriginCell].CellSign != i_PlayerSign || m_GameBoard[i_DestCell].CellSign != eSign.Empty)
+            if ((m_GameBoard[i_OriginCell].CellSign != i_PlayerSign && m_GameBoard[i_OriginCell].CellSign != getKingsAlterSign(i_PlayerSign)) || m_GameBoard[i_DestCell].CellSign != eSign.Empty)
             {
                 moveIsLegal = false;
                 o_DidEatFlag = false;
@@ -113,7 +113,6 @@ namespace B18_EX02
                     case eSign.O:
                         moveIsLegal = checkingOplayerCellsLegal(i_OriginCell, i_DestCell);
                         break;
-
                     case eSign.X:
                         moveIsLegal = checkingXplayerCellsLegal(i_OriginCell, i_DestCell);
                         break;
@@ -138,7 +137,7 @@ namespace B18_EX02
                     isPossible = true;
                 }
                 else if(i_IsKing && m_GameBoard[i_TheCellInTheMiddle].CellSign != m_GameBoard[i_OriginCell].CellSign && 
-                        m_GameBoard[i_TheCellInTheMiddle].CellSign != getKingsRegSign(m_GameBoard[i_TheCellInTheMiddle].CellSign))
+                        m_GameBoard[i_TheCellInTheMiddle].CellSign != getKingsAlterSign(m_GameBoard[i_TheCellInTheMiddle].CellSign))
                 {
                     isPossible = true;
                 }
@@ -147,20 +146,26 @@ namespace B18_EX02
             return isPossible;
         }
 
-        private eSign getKingsRegSign(eSign i_KingSign)
+        private eSign getKingsAlterSign(eSign i_KingSign)
         {
-            eSign regSign = eSign.Empty;
+            eSign alterSign = eSign.Empty;
             switch(i_KingSign)
             {
                 case eSign.U:
-                    regSign = eSign.O;
+                    alterSign = eSign.O;
                     break;
                 case eSign.K:
-                    regSign = eSign.X;
+                    alterSign = eSign.X;
+                    break;
+                case eSign.O:
+                    alterSign = eSign.U;
+                    break;
+                case eSign.X:
+                    alterSign = eSign.K;
                     break;
             }
 
-            return regSign;
+            return alterSign;
         }
 
         private bool checkingKingPlayerCellsLegal(Cell i_OriginCell, Cell i_DestCell, eSign i_CellSign)
