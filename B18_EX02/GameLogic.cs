@@ -361,7 +361,7 @@ namespace B18_EX02
                 }
             }
 
-            m_Players[i_WinnerIdx].Score = m_Players[i_WinnerIdx].NumOfTokens - m_Players[otherPlayerIdx].NumOfTokens;
+            m_Players[i_WinnerIdx].Score += (m_Players[i_WinnerIdx].NumOfTokens - m_Players[otherPlayerIdx].NumOfTokens);
         }
 
         public int GetWinnerOfAllGamesIndex()
