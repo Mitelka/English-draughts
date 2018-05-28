@@ -1,4 +1,5 @@
 ﻿using System.Text;
+
 namespace B18_EX02
 {
     public class Cell
@@ -7,7 +8,7 @@ namespace B18_EX02
         private byte m_CellRow;
         private byte m_CellCol;
         private eSign m_CellSign;
-        
+
         public Cell(byte i_CellRow, byte i_CellCol, eSign i_CellSign)
         {
             m_CellRow = i_CellRow;
@@ -25,21 +26,12 @@ namespace B18_EX02
         {
             bool isValidInput = false;
             o_ParsedCell = null;
-            if(i_Input.Length == k_LegalNumberOfInput)
+            if (i_Input.Length == k_LegalNumberOfInput)
             {
-                if(char.IsUpper(i_Input[0]) && char.IsLower(i_Input[1]))
+                if (char.IsUpper(i_Input[0]) && char.IsLower(i_Input[1]))
                 {
                     o_ParsedCell = new Cell((byte)(i_Input[1] - 'a'), (byte)(i_Input[0] - 'A'), eSign.Empty);
-
-                    if (o_ParsedCell.CellRow < 0 || o_ParsedCell.CellRow > GameLogic.m_GameBoard.BoardSize || o_ParsedCell.CellCol < 0 || o_ParsedCell.CellCol > GameLogic.m_GameBoard.BoardSize)
-                    {
-                        isValidInput = false;
-                    }
-
-                    else
-                    {
-                        isValidInput = true;
-                    }
+                    isValidInput = true;
                 }
             }
 
@@ -53,7 +45,6 @@ namespace B18_EX02
             cellStr.Append((char)(m_CellRow + 'a'));
 
             return cellStr.ToString();
-
         }
-}
+    }
 }

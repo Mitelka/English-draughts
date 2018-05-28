@@ -231,13 +231,14 @@ Please enter the desired game type:
             m_GameLogic.UpdateAllOptionalCellMove(0, m_Players[0].Sign, ref didEat);
             while (!m_IsGameOver && !quitRequest)             
             {
-                for (byte playerIndex = 0; playerIndex < m_Players.Length && !m_IsGameOver; playerIndex++)
+                for (byte playerIndex = 0; playerIndex < m_Players.Length && !(m_IsGameOver || quitRequest); playerIndex++)
                 {                   
                     getLegalDesiredCell(playerIndex, ref quitRequest, out originCell, out destCell, ref didEat, playerHasAnotherMove);
                     if(quitRequest)
                     {
-                        m_GameLogic.UpdatePlayersScore(m_GameLogic.GetOtherPlayerIndex(playerIndex));
-                        showResults(m_GameLogic.GetWinnerOfAllGamesIndex());
+                        int otherPlayerIdx = m_GameLogic.GetOtherPlayerIndex(playerIndex);
+                        m_GameLogic.UpdatePlayersScore(otherPlayerIdx);
+                        showResults(otherPlayerIdx);
                         break;
                     }
 
@@ -270,8 +271,7 @@ Please enter the desired game type:
                     }
                 }
             }
-
-            return !quitRequest && checkIfUserContinueToAnotherRound();
+            return checkIfUserContinueToAnotherRound();
         }
 
         private void resetRound()
@@ -334,6 +334,7 @@ Enter your desirable coordinate as follows: PrevColPrevRow > ColRow");
                     if (m_GameLogic.IsPlayerEligToQuit(i_PlayerIndex))
                     {
                         System.Console.WriteLine("You chose to quite.");
+                        break;
                     }
                     else
                     {
